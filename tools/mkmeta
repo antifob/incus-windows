@@ -1,0 +1,54 @@
+#!/bin/sh
+set -eu
+
+PROGNAME=$(basename -- "${0}")
+
+usage() {
+	printf 'usage: %s [-h] version description\n' "${PROGNAME}"
+}
+
+while getopts h- argv; do
+	case "${argv}" in
+	h)	usage
+		exit 0
+		;;
+	-)	break
+		;;
+	*)	usage >&2
+		exit 1
+		;;
+	esac
+	shift $(( OPTIND + 1 ))
+done
+
+[ X-- != X"${1:-}" ] || shift
+
+if [ 2 -ne $# ]; then
+	usage >&2
+	exit 1
+fi
+
+if [ -t 1 ]; then
+	printf 'error: output must be piped to a file\n' >&2
+	printf 'mkmeta * >lxd.tar.xz\n' >&2
+	exit 1
+fi
+
+# -------------------------------------------------------------------- #
+
+tmpdir=$(mktemp -d)
+trap "/bin/rm -rf '${tmpdir}'" EXIT INT QUIT TERM
+
+cd "${tmpdir}"
+
+cat>metadata.yaml<<__EOF__
+architecture: x86_64
+creation_date: $(TZ= date +%s)
+properties:
+  description: ${2}
+  os: windows
+  release: ${1}
+__EOF__
+
+tar -f- -c metadata.yaml >lxd.tar
+xz -c9 lxd.tar
