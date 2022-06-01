@@ -25,8 +25,8 @@ help:
 
 10e: virtio-win
 	${RUN} 10e
-2012: virtio-win
-	${RUN} 2012
+#2012: virtio-win
+#	${RUN} 2012
 2016: virtio-win
 	${RUN} 2016
 2019: virtio-win
