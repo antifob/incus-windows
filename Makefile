@@ -39,7 +39,7 @@ virtio-win:
 	if [ ! -f ./isos/virtio-win.iso ]; then \
 		curl -L https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/latest-virtio/virtio-win.iso >./isos/virtio-win.iso; \
 	fi
-	[ X'${VIRTIO_SHA512}' = X$(sha512sum ./isos/virtio-win.iso | cut -d' ' -f1) ]
+	[ X'${VIRTIO_SHA512}' = X$$(sha512sum ./isos/virtio-win.iso | cut -d' ' -f1) ]
 	[ -d ./tmp/ ] || mkdir ./tmp/
 	xorriso -report_about SORRY -osirrox on -indev ./isos/virtio-win.iso -extract / ./tmp/virtio-win
 	find ./tmp/virtio-win/ -type d -exec chmod u+rwx {} \;
