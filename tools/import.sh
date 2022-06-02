@@ -1,11 +1,14 @@
 #!/bin/sh
+#
+# Import an LXD VM image
+#
 set -eu
 
 PROGBASE=$(d=$(dirname -- "${0}"); cd "${d}" && pwd)
 PROGNAME=$(basename -- "${0}")
 
 usage() {
-	printf 'usage: %s [-h] version\n' "${PROGNAME}"
+	printf 'usage: %s [-h] dir\n' "${PROGNAME}"
 }
 
 while getopts h- argv; do
@@ -29,20 +32,7 @@ if [ 1 -ne $# ]; then
 	exit 1
 fi
 
-if [ -t 1 ]; then
-	printf 'error: output must be piped to a file\n' >&2
-	printf 'mkmeta version. >lxd.tar.xz\n' >&2
-	exit 1
-fi
-
 # -------------------------------------------------------------------- #
 
-tmpdir=$(mktemp -d)
-trap "/bin/rm -rf '${tmpdir}'" EXIT INT QUIT TERM
-
-cd "${tmpdir}"
-
-date=$(TZ= date +%s)
-sed -e "s|@date@|${date}|" "${PROGBASE}/metas/${1}.in" >metadata.yaml
-
-tar -f- -c metadata.yaml | xz -c9
+exec lxc image import "${1}/lxd.tar.xz" "${1}/disk.qcow2" \
+	--alias "win${1}"

@@ -30,10 +30,10 @@
         "./tmp/virtio-win/*"
       ],
       "memory": "8192",
-      "output_directory": "qemu/{{ user `name` }}",
+      "output_directory": "output/{{ user `name` }}",
+      "vm_name": "disk.qcow2",
       "shutdown_command": "A:\\sysprep.bat",
       "shutdown_timeout": "15m",
-      "vm_name": "{{ user `name` }}",
       "winrm_insecure": "true",
       "winrm_password": "vagrant",
       "winrm_timeout": "1h",

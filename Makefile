@@ -1,6 +1,9 @@
 .POSIX:
 
-VIRTIO_SHA512=	63e927f2bd5039ade7f7f29ebc5fe34f8c6bfa3af82c0f66ba43b5c68b523fdfe91c76099b4aa511fe820be616fa66619b601fe956f05e46e4435dd1e343420e
+VIRTIO_VERSION=		0.1.217
+VIRTIO_REVISION=	-2
+VIRTIO_SHA512=		34edb8e0b5aacf1ca2fa3ac08a86e91be149d35cfd5f686464cf58239c0b145a06cf241c546195684d8576669462c545af6ba56c1cc870c560f33497bcd43ce1
+VIRTIO_ARCHIVE= 	https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/
 
 
 RUN=	f() { \
@@ -36,8 +39,9 @@ help:
 
 
 virtio-win:
+	[ -d ./isos/ ] || mkdir ./isos/
 	if [ ! -f ./isos/virtio-win.iso ]; then \
-		curl -L https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/latest-virtio/virtio-win.iso >./isos/virtio-win.iso; \
+		curl -L '${VIRTIO_ARCHIVE}/virtio-win-${VIRTIO_VERSION}${VIRTIO_REVISION}/virtio-win-${VIRTIO_VERSION}.iso' >./isos/virtio-win.iso; \
 	fi
 	[ X'${VIRTIO_SHA512}' = X$$(sha512sum ./isos/virtio-win.iso | cut -d' ' -f1) ]
 	[ -d ./tmp/ ] || mkdir ./tmp/

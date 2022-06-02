@@ -1,4 +1,7 @@
 #!/bin/sh
+#
+# Start an LXD VM from an image.
+#
 set -eu
 
 PROGBASE=$(d=$(dirname -- "${0}"); cd "${d}" && pwd)
@@ -29,20 +32,8 @@ if [ 1 -ne $# ]; then
 	exit 1
 fi
 
-if [ -t 1 ]; then
-	printf 'error: output must be piped to a file\n' >&2
-	printf 'mkmeta version. >lxd.tar.xz\n' >&2
-	exit 1
-fi
-
 # -------------------------------------------------------------------- #
 
-tmpdir=$(mktemp -d)
-trap "/bin/rm -rf '${tmpdir}'" EXIT INT QUIT TERM
-
-cd "${tmpdir}"
-
-date=$(TZ= date +%s)
-sed -e "s|@date@|${date}|" "${PROGBASE}/metas/${1}.in" >metadata.yaml
-
-tar -f- -c metadata.yaml | xz -c9
+lxc init "win${1}" "win${1}" -c security.secureboot=false
+lxc config device add "win${1}" cidata disk source=cloud-init:config
+exec lxc start "win${1}"

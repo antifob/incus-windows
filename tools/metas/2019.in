@@ -1,0 +1,6 @@
+architecture: x86_64
+creation_date: @date@
+properties:
+  description: Microsoft Windows 2019 Datacenter
+  os: windows
+  release: 2019

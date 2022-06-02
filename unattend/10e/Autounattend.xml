@@ -14,35 +14,14 @@
 
     <component xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" language="neutral" name="Microsoft-Windows-PnpCustomizationsWinPE" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" versionScope="nonSxS">
       <DriverPaths>
-        <PathAndCredentials wcm:action="add" wcm:keyValue="2">
+        <PathAndCredentials wcm:action="add" wcm:keyValue="1">
          <Path>E:\viostor\w10\amd64</Path>
         </PathAndCredentials>
-        <PathAndCredentials wcm:action="add" wcm:keyValue="3">
+        <PathAndCredentials wcm:action="add" wcm:keyValue="2">
          <Path>E:\NetKVM\w10\amd64</Path>
         </PathAndCredentials>
-        <PathAndCredentials wcm:action="add" wcm:keyValue="4">
-         <Path>E:\Balloon\w10\amd64</Path>
-        </PathAndCredentials>
-        <PathAndCredentials wcm:action="add" wcm:keyValue="5">
-         <Path>E:\pvpanic\w10\amd64</Path>
-        </PathAndCredentials>
-        <PathAndCredentials wcm:action="add" wcm:keyValue="6">
-         <Path>E:\qemupciserial\w10\amd64</Path>
-        </PathAndCredentials>
-        <!--<PathAndCredentials wcm:action="add" wcm:keyValue="7">
-         <Path>E:\qxldod\2k16\amd64</Path>
-        </PathAndCredentials>-->
-        <PathAndCredentials wcm:action="add" wcm:keyValue="8">
-         <Path>E:\vioinput\w10\amd64</Path>
-        </PathAndCredentials>
-        <PathAndCredentials wcm:action="add" wcm:keyValue="9">
-         <Path>E:\viorng\w10\amd64</Path>
-        </PathAndCredentials>
-        <PathAndCredentials wcm:action="add" wcm:keyValue="10">
+        <PathAndCredentials wcm:action="add" wcm:keyValue="3">
          <Path>E:\vioscsi\w10\amd64</Path>
-        </PathAndCredentials>
-        <PathAndCredentials wcm:action="add" wcm:keyValue="11">
-         <Path>E:\vioserial\w10\amd64</Path>
         </PathAndCredentials>
       </DriverPaths>
     </component>
