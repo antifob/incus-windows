@@ -24,14 +24,13 @@ If your `/tmp` directory is small, you may use another directory by
 setting the `TMPDIR` environment variable.
 
 ```
-# Build the disk
-make 2022
+# Build the disk and LXD image metadata in ./output/win2022
+sh ./tools/build.sh 2022
 
-# Import into LXD as an image
-sh tools/mkmeta 2022 'Microsoft Windows 2022 Datacenter' >lxd.tar.xz
-lxc image import lxd.tar.xz qemu/win2022/win2022 --alias win2022
+# Import into LXD
+sh ./tools/import.sh ./output/win2022
 
-# Create the virtual machine
+# Create and launch the virtual machine
 lxc init --vm win2022 w22 -c security.secureboot=false
 
 # Prepare a script to run on boot

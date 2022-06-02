@@ -34,5 +34,6 @@ fi
 
 # -------------------------------------------------------------------- #
 
+n=$(basename -- "${1}")
 exec lxc image import "${1}/lxd.tar.xz" "${1}/disk.qcow2" \
-	--alias "win${1}"
+	--alias "${n}"

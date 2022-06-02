@@ -34,7 +34,5 @@ fi
 
 # -------------------------------------------------------------------- #
 
-[ -d ./tmp/ ] || mkdir ./tmp/
-
-TMPDIR=$(pwd)/tmp make "${1}"
-sh "${PROGBASE}/tools/mkmeta" "${1}" >"./output/win${1}/lxd.tar.xz"
+make "${1}"
+sh "${PROGBASE}/mkmeta" "${1}" >"./output/win${1}/lxd.tar.xz"
