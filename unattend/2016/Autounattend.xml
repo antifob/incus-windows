@@ -200,12 +200,12 @@
           <CommandLine>cmd.exe /c powershell -File E:\local\qemu-ga.ps1</CommandLine>
           <RequiresUserInput>true</RequiresUserInput>
         </SynchronousCommand>
-        <SynchronousCommand wcm:action="add">
+        <!--<SynchronousCommand wcm:action="add">
           <Order>6</Order>
           <Description>Install SAC module</Description>
           <CommandLine>cmd.exe /c powershell -File E:\local\sac.ps1</CommandLine>
           <RequiresUserInput>true</RequiresUserInput>
-        </SynchronousCommand>
+        </SynchronousCommand>-->
         <SynchronousCommand wcm:action="add">
           <Order>7</Order>
           <Description>Enable WinRM</Description>

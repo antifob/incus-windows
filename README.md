@@ -5,10 +5,10 @@ An LXD-oriented Windows VMs imaging toolset.
 
 ## Features
 
-- Serial console access (`lxc console $vm`).
-- WinRM access.
+- WinRM access (Ansible-ready).
 - High-performance power configuration.
 - Most/all drivers installed.
+- Serial console access (disabled by default).
 
 
 ## Supported versions
@@ -47,18 +47,7 @@ lxc launch win2022 w22 -c security.secureboot=false
 ```
 
 All systems have an administrator-level account named `admin` with
-password `changeme`. Additionally, the EMS/SAC service is installed;
-allowing serial console access to the system:
-
-```
-lxc console w22
-SAC> cmd
-SAC> ch -si 1
-Username: admin
-Domain:
-Password: changeme
-C:\Windows\System32>
-```
+password `changeme`.
 
 
 ## Considerations
@@ -68,9 +57,6 @@ C:\Windows\System32>
 Configurations are meant to support offline installs. This supports
 ensuring that no updates are part of the images. In other words, we're
 able to control when, if any, updates/patches will be installed.
-
-_Due to this, Windows 10 Enterprise does not have serial console access
-enabled; since it requires network connectivity._
 
 ### Storage space
 
@@ -102,6 +88,25 @@ similar image:
 - run `E:\local\power.ps1`;
 - run `E:\local\qemu-ga.ps1`;
 - finally, run `E:\local\sysprep.bat`.
+
+### Serial console access
+
+It is possible to access Windows's serial console interface by
+installing the EMS/SAC service. An installation script is provided by
+disabled. To install EMS/SAC simply uncomment the stanza in the
+`Autounattend.xml` file. Note that installing EMS/SAC on Windows 10
+requires network connectivity and that it appears to be broken on
+Server 2012.
+
+```
+lxc console w22
+SAC> cmd
+SAC> ch -si 1
+Username: admin
+Domain:
+Password: changeme
+C:\Windows\System32>
+```
 
 
 ## Funny stuff
