@@ -90,8 +90,8 @@
         </OSImage>
       </ImageInstall>
       <UserData>
-        <!-- Product Key from https://www.microsoft.com/en-us/evalcenter/evaluate-windows-10-enterprise -->
-        <ProductKey>2FMYP-QCY43-QR9VK-WTVCK
+        <ProductKey>
+          <!-- <Key></Key> -->
           <WillShowUI>Never</WillShowUI>
         </ProductKey>
         <AcceptEula>true</AcceptEula>
@@ -177,44 +177,44 @@
         </SynchronousCommand>
         <SynchronousCommand wcm:action="add">
           <Order>2</Order>
-          <Description>Enable WinRM</Description>
-          <CommandLine>cmd.exe /c powershell -File A:\ConfigureRemotingForAnsible.ps1"</CommandLine>
+          <Description>Compile .NET assemblies</Description>
+          <CommandLine>cmd.exe /c F:\local\compile-dotnet-assemblies.bat</CommandLine>
           <RequiresUserInput>true</RequiresUserInput>
         </SynchronousCommand>
         <SynchronousCommand wcm:action="add">
           <Order>3</Order>
-          <Description>Enable WinRM</Description>
-          <CommandLine>cmd.exe /c powershell -File A:\cloudbase-init.ps1"</CommandLine>
-          <RequiresUserInput>true</RequiresUserInput>
-        </SynchronousCommand>
-        <SynchronousCommand wcm:action="add">
-          <Order>4</Order>
           <Description>Hide "New network" banner</Description>
           <CommandLine>cmd.exe /c reg add "HKLM\System\CurrentControlSet\Control\Network\NewNetworkWindowOff"</CommandLine>
           <RequiresUserInput>true</RequiresUserInput>
         </SynchronousCommand>
         <SynchronousCommand wcm:action="add">
-          <Order>5</Order>
+          <Order>4</Order>
           <Description>Perform power optimization</Description>
-          <CommandLine>cmd.exe /c powershell -File A:\power.ps1</CommandLine>
+          <CommandLine>cmd.exe /c powershell -File F:\local\power.ps1</CommandLine>
           <RequiresUserInput>true</RequiresUserInput>
         </SynchronousCommand>
         <SynchronousCommand wcm:action="add">
-          <Order>6</Order>
+          <Order>5</Order>
           <Description>Install QEMU agent</Description>
-          <CommandLine>cmd.exe /c powershell -File A:\qemu-ga.ps1</CommandLine>
+          <CommandLine>cmd.exe /c powershell -File F:\local\qemu-ga.ps1</CommandLine>
           <RequiresUserInput>true</RequiresUserInput>
         </SynchronousCommand>
+        <!--<SynchronousCommand wcm:action="add">
+          <Order>6</Order>
+          <Description>Install SAC module</Description>
+          <CommandLine>cmd.exe /c powershell -File F:\local\sac.ps1</CommandLine>
+          <RequiresUserInput>true</RequiresUserInput>
+        </SynchronousCommand>-->
         <SynchronousCommand wcm:action="add">
           <Order>7</Order>
-          <Description>Install SAC module</Description>
-          <CommandLine>cmd.exe /c powershell -File A:\sac.ps1</CommandLine>
+          <Description>Enable WinRM</Description>
+          <CommandLine>cmd.exe /c powershell -File F:\local\ConfigureRemotingForAnsible.ps1"</CommandLine>
           <RequiresUserInput>true</RequiresUserInput>
         </SynchronousCommand>
         <SynchronousCommand wcm:action="add">
           <Order>8</Order>
-          <Description>Compile .NET assemblies</Description>
-          <CommandLine>cmd.exe /c A:\compile-dotnet-assemblies.bat</CommandLine>
+          <Description>Enable WinRM</Description>
+          <CommandLine>cmd.exe /c F:\local\sysprepf.bat</CommandLine>
           <RequiresUserInput>true</RequiresUserInput>
         </SynchronousCommand>
       </FirstLogonCommands>

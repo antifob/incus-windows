@@ -1,0 +1,6 @@
+architecture: x86_64
+creation_date: @date@
+properties:
+  description: Microsoft Windows 2008 R2 SP1
+  os: windows
+  release: 2008

@@ -1,0 +1,6 @@
+architecture: x86_64
+creation_date: @date@
+properties:
+  description: Microsoft Windows 2012 R2 Standard
+  os: windows
+  release: 2012
