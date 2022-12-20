@@ -162,6 +162,18 @@
           <CommandLine>cmd.exe /c reg add "HKLM\System\CurrentControlSet\Control\Network\NewNetworkWindowOff"</CommandLine>
           <RequiresUserInput>true</RequiresUserInput>
         </SynchronousCommand>
+        <SynchronousCommand wcm:action="add">
+          <Order>8</Order>
+          <Description>Empty hibernation file</Description>
+          <CommandLine>%SYSTEMROOT%\System32\reg.exe ADD HKLM\SYSTEM\CurrentCOntrolSet\Control\Power\ /v HibernateFileSizePercent /t REG_DWORD /d 0 /f</CommandLine>
+          <RequiresUserInput>true</RequiresUserInput>
+        </SynchronousCommand>
+        <SynchronousCommand wcm:action="add">
+          <Order>9</Order>
+          <Description>Disable hibernation</Description>
+          <CommandLine>%SYSTEMROOT%\System32\reg.exe ADD HKLM\SYSTEM\CurrentCOntrolSet\Control\Power\ /v HibernateEnabled /t REG_DWORD /d 0 /f</CommandLine>
+          <RequiresUserInput>true</RequiresUserInput>
+        </SynchronousCommand>
       </FirstLogonCommands>
       <OOBE>
         <HideEULAPage>true</HideEULAPage>
