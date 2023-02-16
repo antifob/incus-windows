@@ -44,7 +44,7 @@ BUILD=	build() { \
 			./local/ \
 			./output/win$$1/; \
 		sh ./tools/mkmeta $$1 >./output/win/$$1/lxd.tar.xz; \
-	}; run
+	}; build
 
 
 all: help
