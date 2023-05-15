@@ -43,7 +43,7 @@ BUILD=	build() { \
 			./isos/virtio-win.iso \
 			./local/ \
 			./output/win$$1/; \
-		sh ./tools/mkmeta $$1 >./output/win/$$1/lxd.tar.xz; \
+		sh ./tools/mkmeta $$1 >./output/win$$1/lxd.tar.xz; \
 	}; build
 
 
