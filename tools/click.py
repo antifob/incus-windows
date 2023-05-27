@@ -38,7 +38,8 @@ else:
         time.sleep(1)
 
 
-print('Waiting for VM to be stopped for 10 seconds')
+print('Letting the VM do its thing...')
+print('Waiting for it to be stopped for 10 seconds')
 n = 0
 while n < 10:
     s = os.popen('lxc ls --format=csv -cs {}'.format(sys.argv[1])).read().strip()
