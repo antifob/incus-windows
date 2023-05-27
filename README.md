@@ -112,7 +112,7 @@ C:\Windows\System32>
 ## Funny stuff
 
 - LXD supports setting the UEFI's boot priority through a
-  _device_ entry with the `boot.priority` parameter. This means
+  `device` entry with the `boot.priority` parameter. This means
   that we can auto-"boot" to Window's ISO and launch the installer
   instead of spamming the Escape key to enter the boot menu. It is
   also possible to add ISOs using the `raw.qemu` parameter with a
@@ -131,8 +131,37 @@ C:\Windows\System32>
   `Autounattend.xml` files have to be adjusted for this configuration.
   haha no, not exactly! Windows 10 sees two (2) devices during
   installation and three (3) afterwards. :p
+
+  The way this is dealt with is having the `Autounattend.xml` file
+  point to either `local/sysprep.bat` or `local/sysprepf.bat` based
+  on how the drives are mounted.
 - EMS/SAC is installed on the Server 2012 image, but doesn't seem to
   work.
+
+
+## Debugging
+
+You may connect and interact to the VM during the imaging process by using
+the following commands:
+
+```
+# identify the vm
+#> use the following command or check your console
+lxc ls build
+
+# connect to to the vm
+lxc console --type=vga $vmname
+```
+
+Here are some breaking points that you might want to look at:
+
+- `Autounattend.xml` and scripts refer to drives by letters. As
+  mentionned in the `Fun facts` section, these tend to change
+  depending on the setup. Use Shift+F10 to open up a console.
+
+You may want to use Microsoft's official imaging toolkit to craft
+or debug your `Autounattend.xml` file. See the references below
+for more information.
 
 
 ## References
@@ -141,3 +170,6 @@ C:\Windows\System32>
 - https://learn.microsoft.com/en-us/troubleshoot/windows-server/windows-server-eos-faq/end-of-support-windows-server-2008-2008r2
 - https://github.com/lxc/lxd/commit/f14c88de78bf9f2bbe91dd661004ab772ccf179e
 - https://bugs.launchpad.net/qemu/+bug/1593605
+- https://www.itninja.com/blog/view/validating-unattend-xml-files-with-system-image-manager
+- https://vacuumbreather.com/index.php/blog/item/62-the-case-of-just-a-moment
+- https://learn.microsoft.com/en-us/windows-hardware/get-started/adk-install
