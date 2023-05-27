@@ -71,7 +71,7 @@ Make sure the project's partition has enough storage space.
 
 ### Windows Server 2008 R2 SP1
 
-WWindows Server 2008 R2 SP1 is EOL since 2020. However, it still used by
+Windows Server 2008 R2 SP1 is EOL since 2020. However, it still used by
 some organizations. For this reason, being able to deploy it in a lab
 environment is desired. LXD, however, does not support it due to its
 use of modern OS and virtualization features, and lack of flexibility in
