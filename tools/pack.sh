@@ -35,10 +35,8 @@ fi
 
 name=build$(head -c6 /dev/urandom | od -tx1 -vAn | xargs printf %s)
 cleanup() {
-	if [ X2008 != X"${VERSION}" ]; then
-		lxc image rm "${name}"
-		lxc delete -f "${name}"
-	fi
+	incus image rm "${name}"
+	incus delete -f "${name}"
 }
 trap cleanup EXIT INT QUIT TERM
 
@@ -55,8 +53,6 @@ cp "${PROJROOT}/unattend/${VERSION}/Autounattend.xml" "${TMPDIR}/virtio-win-${VE
 rm -f "${DESTDIR}/unattended-${VERSION}.iso"
 xorriso -as mkisofs -o "${DESTDIR}/unattended-${VERSION}.iso" -R -J -V STUFF "${TMPDIR}/virtio-win-${VERSION}/"
 
-[ X2008 != X"${VERSION}" ] || exit 0
-
 # -------------------------------------------------------------------- #
 # launch VM in LXD
 
@@ -69,26 +65,32 @@ __EOF__
 
 [ X = X"${LXD_STORAGE:-}" ] || LXD_STORAGE="-s ${LXD_STORAGE}"
 
-lxc init "${name}" --empty --vm -c security.secureboot=false -c limits.cpu=4 -c limits.memory=8GB ${LXD_STORAGE:-}
+incus init "${name}" --empty --vm -c security.secureboot=false -c limits.cpu=4 -c limits.memory=8GB ${LXD_STORAGE:-}
 if [ X = X"${LXD_STORAGE:-}" ]; then
-	lxc config device override "${name}" root size=30GiB
+	incus config device override "${name}" root size=30GiB
 else
-	lxc config device set "${name}" root size=30GiB
+	incus config device set "${name}" root size=30GiB
 fi
-lxc config device add "${name}" iso disk source="${WINDIR}/${WINFILE}" boot.priority=10
-apparmr | lxc config set "${name}" raw.apparmor -
-printf -- '-drive file=%s,index=0,media=cdrom,if=ide -drive file=%s,index=1,media=cdrom,if=ide\n' "${WINDIR}/${WINFILE}" "${DESTDIR}/unattended-${VERSION}.iso" | lxc config set "${name}" raw.qemu -
+incus config device add "${name}" iso disk source="${WINDIR}/${WINFILE}" boot.priority=10
+apparmr | incus config set "${name}" raw.apparmor -
+printf -- '-drive file=%s,index=0,media=cdrom,if=ide -drive file=%s,index=1,media=cdrom,if=ide\n' "${WINDIR}/${WINFILE}" "${DESTDIR}/unattended-${VERSION}.iso" | incus config set "${name}" raw.qemu -
+
+if [ X2008 = X"${VERSION}" ]; then
+	incus config set "${name}" security.csm=true
+fi
 
 python3 "${PROGBASE}/click.py" "${name}"
 
 printf '[+] Converting VM to image\n'
-lxc publish "${name}" --alias "${name}" --compression none
+incus publish "${name}" --alias "${name}" --compression none
 
 printf '[+] Exporting image\n'
-lxc image export "${name}" "${DESTDIR}"
+incus image export "${name}" "${DESTDIR}"
 
 printf '[+] Extracting disk.qcow2\n'
 cat "${DESTDIR}"/*.tar | tar -C "${DESTDIR}" -f- -x --transform s/rootfs.img/disk.qcow2/ rootfs.img
+# incus's disk.qcow2 file is not readable (mode=0)
+chmod 0644 disk.qcow2
 rm -f "${DESTDIR}"/*.tar
 
 printf '[+] Image created\n'

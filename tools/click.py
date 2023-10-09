@@ -29,7 +29,7 @@ def rduntil(fd, s):
 
 pid, fd = pty.fork()
 if 0 == pid:
-    os.execlp('lxc', 'lxc', 'start', '--console', sys.argv[1])
+    os.execlp('incus', 'incus', 'start', '--console', sys.argv[1])
 else:
     rduntil(fd, b'PciRoot')
     print('spamming Enter for 10 seconds')
@@ -42,7 +42,7 @@ print('Letting the VM do its thing...')
 print('Waiting for it to be stopped for 10 seconds')
 n = 0
 while n < 10:
-    s = os.popen('lxc ls --format=csv -cs {}'.format(sys.argv[1])).read().strip()
+    s = os.popen('incus ls --format=csv -cs {}'.format(sys.argv[1])).read().strip()
     if 'STOPPED' == s:
         n += 1
     else:

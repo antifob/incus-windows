@@ -31,7 +31,7 @@ fi
 
 if [ -t 1 ]; then
 	printf 'error: output must be piped to a file\n' >&2
-	printf 'mkmeta version. >lxd.tar.xz\n' >&2
+	printf 'mkmeta version. >incus.tar.xz\n' >&2
 	exit 1
 fi
 

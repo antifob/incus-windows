@@ -35,5 +35,5 @@ fi
 # -------------------------------------------------------------------- #
 
 n=$(basename -- "${1}")
-exec lxc image import "${1}/lxd.tar.xz" "${1}/disk.qcow2" \
+exec incus image import "${1}/incus.tar.xz" "${1}/disk.qcow2" \
 	--alias "${n}"

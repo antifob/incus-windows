@@ -43,7 +43,7 @@ BUILD=	build() { \
 			./isos/virtio-win.iso \
 			./local/ \
 			./output/win$$1/; \
-		sh ./tools/mkmeta $$1 >./output/win$$1/lxd.tar.xz; \
+		sh ./tools/mkmeta $$1 >./output/win$$1/incus.tar.xz; \
 	}; build
 
 
@@ -60,6 +60,8 @@ help:
 
 10e: dl-10e dl-virtio
 	@${BUILD} 10e
+2008: dl-2008 dl-virtio
+	@${BUILD} 2008
 2012: dl-2012 dl-virtio
 	@${BUILD} 2012
 2016: dl-2016 dl-virtio

@@ -34,6 +34,6 @@ fi
 
 # -------------------------------------------------------------------- #
 
-lxc init "win${1}" "win${1}" -c security.secureboot=false
-lxc config device add "win${1}" cidata disk source=cloud-init:config
-exec lxc start "win${1}"
+incus init "win${1}" "win${1}" -c security.secureboot=false
+incus config device add "win${1}" cidata disk source=cloud-init:config
+exec incus start "win${1}"
