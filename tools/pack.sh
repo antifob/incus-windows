@@ -90,7 +90,7 @@ incus image export "${name}" "${DESTDIR}"
 printf '[+] Extracting disk.qcow2\n'
 cat "${DESTDIR}"/*.tar | tar -C "${DESTDIR}" -f- -x --transform s/rootfs.img/disk.qcow2/ rootfs.img
 # incus's disk.qcow2 file is not readable (mode=0)
-chmod 0644 disk.qcow2
+chmod 0644 "${DESTDIR}/disk.qcow2"
 rm -f "${DESTDIR}"/*.tar
 
 printf '[+] Image created\n'
