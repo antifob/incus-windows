@@ -1,1 +1,4 @@
 - disable hibernation
+- install spice-guest-tools
+https://www.spice-space.org/download.html#windows-binaries
+https://www.spice-space.org/download/windows/spice-guest-tools/spice-guest-tools-latest.exe
