@@ -131,7 +131,7 @@ C:\Windows\System32>
   The way this is dealt with is having the `Autounattend.xml` file
   point to either `local/sysprep.bat` or `local/sysprepf.bat` based
   on how the drives are mounted.
-- EMS/SAC is installed on the Server 2012 image, but doesn't seem to
+- EMS/SAC can be installed on the Server 2012 image, but doesn't seem to
   work.
 
 
