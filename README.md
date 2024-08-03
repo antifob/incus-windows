@@ -32,7 +32,7 @@ The following Windows versions are supported.
 - xorriso
 
 ```
-apt-get install ca-certificates curl make python3 xorriso
+apt-get --install-recommends install curl make python3 xorriso
 
 # in case Incus is not installed already
 curl -fsSL https://pkgs.zabbly.com/get/incus-stable | sh
