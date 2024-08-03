@@ -4,3 +4,5 @@ properties:
   description: Microsoft Windows 2016 Datacenter
   os: windows
   release: 2016
+  variant: default
+  architecture: x86_64

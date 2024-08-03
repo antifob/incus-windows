@@ -4,3 +4,5 @@ properties:
   description: Microsoft Windows 2008 R2 SP1
   os: windows
   release: 2008
+  variant: default
+  architecture: x86_64

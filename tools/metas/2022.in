@@ -4,3 +4,5 @@ properties:
   description: Microsoft Windows 2022 Datacenter
   os: windows
   release: 2022
+  variant: default
+  architecture: x86_64
