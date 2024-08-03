@@ -31,6 +31,14 @@ The following Windows versions are supported.
 - python
 - xorriso
 
+```
+apt-get ca-certificates curl make python3 xorriso
+
+# in case Incus is not installed already
+curl -fsSL https://pkgs.zabbly.com/get/incus-stable | sh
+incus admin init --auto
+```
+
 
 ## Usage
 
