@@ -43,6 +43,8 @@ trap cleanup EXIT INT QUIT TERM
 # -------------------------------------------------------------------- #
 # virtio - repack
 
+printf '[+] Repacking ISO with unattended data\n'
+
 rm -rf "${TMPDIR}/virtio-win-${VERSION}/"
 xorriso -report_about SORRY -osirrox on -indev "${VIRTIODIR}/${VIRTIOFILE}" -extract / "${TMPDIR}/virtio-win-${VERSION}/"
 find "${TMPDIR}/virtio-win-${VERSION}/" -type d -exec chmod u+rwx {} \;
@@ -65,6 +67,8 @@ __EOF__
 
 [ X = X"${LXD_STORAGE:-}" ] || LXD_STORAGE="-s ${LXD_STORAGE}"
 
+printf '[+] Launching the VM\n'
+
 incus init "${name}" --empty --vm -c security.secureboot=false -c limits.cpu=4 -c limits.memory=8GB ${LXD_STORAGE:-}
 if [ X = X"${LXD_STORAGE:-}" ]; then
 	incus config device override "${name}" root size=30GiB
@@ -81,10 +85,10 @@ fi
 
 python3 "${PROGBASE}/click.py" "${name}"
 
-printf '[+] Converting VM to image\n'
+printf '[+] Converting the VM to an image\n'
 incus publish "${name}" --alias "${name}" --compression none
 
-printf '[+] Exporting image\n'
+printf '[+] Exporting the image\n'
 incus image export "${name}" "${DESTDIR}"
 
 printf '[+] Extracting disk.qcow2\n'

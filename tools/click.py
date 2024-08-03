@@ -32,14 +32,14 @@ if 0 == pid:
     os.execlp('incus', 'incus', 'start', '--console', sys.argv[1])
 else:
     rduntil(fd, b'PciRoot')
-    print('spamming Enter for 10 seconds')
+    print('[+] Spamming Enter for 10 seconds')
     for _ in range(10):
         os.write(fd, b'\r\n')
         time.sleep(1)
 
 
-print('Letting the VM do its thing...')
-print('Waiting for it to be stopped for 10 seconds')
+print('[+] Letting the installer do its thing...')
+print('[+] Waiting for the VM to be stopped for 10 seconds')
 n = 0
 while n < 10:
     s = os.popen('incus ls --format=csv -cs {}'.format(sys.argv[1])).read().strip()
@@ -49,4 +49,4 @@ while n < 10:
         n = 0
     time.sleep(1)
 
-print('VM stopped')
+print('[+] VM stopped')
