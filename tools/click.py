@@ -40,6 +40,8 @@ else:
 
 print('[+] Letting the installer do its thing...')
 print('[+] Waiting for the VM to be stopped for 10 seconds')
+print("[+] You may connect to the VM's VGA using the following command")
+print('incus console --type=vga {}'.format(sys.argv[1]))
 n = 0
 while n < 10:
     s = os.popen('incus ls --format=csv -cs {}'.format(sys.argv[1])).read().strip()
