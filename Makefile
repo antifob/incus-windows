@@ -50,16 +50,22 @@ BUILD=	build() { \
 all: help
 help:
 	@printf 'targets:\n\n'
-	@printf ' 10e\tWindows 10 Enterprise\n'
-	@printf ' 2012\tWindows Server 2012 R2\n'
-	@printf ' 2016\tWindows Server 2016\n'
-	@printf ' 2019\tWindows Server 2019\n'
-	@printf ' 2022\tWindows Server 2022\n'
+	@printf ' 10e\t\tWindows 10 Enterprise, 22H2\n'
+	@printf ' 10e-21h2\tWindows 10 Enterprise, 21H2\n'
+	@printf ' 10e-20h2\tWindows 10 Enterprise, 20H2\n'
+	@printf ' 2012\t\tWindows Server 2012 R2\n'
+	@printf ' 2016\t\tWindows Server 2016\n'
+	@printf ' 2019\t\tWindows Server 2019\n'
+	@printf ' 2022\t\tWindows Server 2022\n'
 	@printf '\n'
 
 
 10e: dl-10e dl-virtio
 	@${BUILD} 10e
+10e-21h2: dl-10e-21h2 dl-virtio
+	@${BUILD} 10e-21h2
+10e-20h2: dl-10e-20h2 dl-virtio
+	@${BUILD} 10e-20h2
 2008: dl-2008 dl-virtio
 	@${BUILD} 2008
 2012: dl-2012 dl-virtio
@@ -73,6 +79,10 @@ help:
 
 dl-10e:
 	@${DLWIN} 10e
+dl-10e-21h2:
+	@${DLWIN} 10e-21h2
+dl-10e-20h2:
+	@${DLWIN} 10e-20h2
 dl-2008:
 	@${DLWIN} 2008
 dl-2012:
