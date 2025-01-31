@@ -27,12 +27,11 @@ The following Windows versions are supported.
 
 - curl
 - incus
-- make
 - python
 - xorriso
 
 ```
-apt-get --install-recommends install curl make python3 xorriso
+apt-get --install-recommends install curl python3 xorriso
 
 # in case Incus is not installed already
 curl -fsSL https://pkgs.zabbly.com/get/incus-stable | sh
@@ -45,10 +44,10 @@ incus admin init --auto
 ```
 # Build a disk image (disk.qcow2) and metadata archive (incus.tar.xz)
 # in ./output/win2022/
-make 2022
+sh incus-windows/build.sh 2022
 
 # Import into incus using helper script
-sh ./tools/import.sh ./output/win2022/
+sh incus-windows/tools/import.sh ./output/win2022/
 
 # Create and launch the virtual machine
 incus launch win2022 w22 -c security.secureboot=false
