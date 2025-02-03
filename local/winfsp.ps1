@@ -1,3 +1,5 @@
+# https://blog.simos.info/how-to-run-a-windows-virtual-machine-on-incus-on-linux/#bonus-material-4-how-to-mount-a-directory-from-the-host-to-the-windows-vm
+
 echo "Enable the VirtIO File System Service"
 $serviceName = 'VirtioFsSvc'
 Set-Service -Name $serviceName -StartupType 'Automatic'
