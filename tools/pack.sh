@@ -35,7 +35,7 @@ fi
 
 name=build$(head -c6 /dev/urandom | od -tx1 -vAn | xargs printf %s)
 cleanup() {
-	incus image rm "${name}"
+	incus image rm "${name}" || :
 	incus delete -f "${name}"
 }
 trap cleanup EXIT INT QUIT TERM
