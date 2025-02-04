@@ -1,9 +1,9 @@
 .POSIX:
 
 VIRTIO_ARCHIVE= 	https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/
-VIRTIO_VERSION=		0.1.266
-VIRTIO_REVISION=	-1
-VIRTIO_SHA256=		57b0f6dc8dc92dc2ae8621f8b1bfbd8a873de9bedc788c4c4b305ea28acc77cd
+VIRTIO_VERSION=		0.1.217
+VIRTIO_REVISION=	-2
+VIRTIO_SHA256=		8d17ae343e60f0463ce0393035c6efe209d213cf1938d0a25ce09fc55a666e7b
 
 
 # ${DLISO} url filename sha256
