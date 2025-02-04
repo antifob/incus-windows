@@ -73,8 +73,7 @@ dliso() {
 	[ -f "${ISODIR}/${2}" ] || curl -fSLo "${ISODIR}/${2}" "${1}"
 
 	if [ X"${3}" != X$(sha256sum "${ISODIR}/${2}" | cut -d' ' -f1) ]; then
-		rm -f "${ISODIR}/${2}"
-		die 'error: download failed\n'
+		die 'error: hash mismatch for %s\n' "${ISODIR}/${2}"
 	fi
 }
 
