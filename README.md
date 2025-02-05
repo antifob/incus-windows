@@ -9,6 +9,7 @@ An Incus-oriented Windows VMs imaging toolset.
 - High-performance power configuration.
 - Most/all drivers installed.
 - Serial console access (disabled by default).
+- SSH access.
 
 
 ## Supported versions

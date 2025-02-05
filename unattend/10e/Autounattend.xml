@@ -212,8 +212,14 @@
           <RequiresUserInput>true</RequiresUserInput>
         </SynchronousCommand>
         <SynchronousCommand wcm:action="add">
-          <Order>8</Order>
-          <Description>Enable WinRM</Description>
+          <Order>11</Order>
+          <Description>Enable SSHD</Description>
+          <CommandLine>cmd.exe /c powershell -File F:\local\sshd.ps1</CommandLine>
+          <RequiresUserInput>false</RequiresUserInput>
+        </SynchronousCommand>
+        <SynchronousCommand wcm:action="add">
+          <Order>99</Order>
+          <Description>Run sysprep</Description>
           <CommandLine>cmd.exe /c F:\local\sysprepf.bat</CommandLine>
           <RequiresUserInput>true</RequiresUserInput>
         </SynchronousCommand>
