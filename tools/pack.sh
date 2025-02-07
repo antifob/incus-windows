@@ -83,6 +83,11 @@ if [ X2008 = X"${VERSION}" ]; then
 	incus config set "${name}" security.csm=true
 fi
 
+if [ X11e = X"${VERSION}" ]; then
+	printf '[+] Add Virtual TPM'
+	incus config device add ${name} vtpm tpm path=/dev/tpm0
+fi
+
 python3 "${PROGBASE}/click.py" "${name}"
 
 printf '[+] Converting the VM to an image\n'

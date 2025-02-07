@@ -1,0 +1,8 @@
+architecture: x86_64
+creation_date: @date@
+properties:
+  description: Microsoft Windows 11 Enterprise
+  os: windows
+  release: 11e
+  variant: default
+  architecture: x86_64
