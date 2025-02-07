@@ -1,0 +1,8 @@
+architecture: x86_64
+creation_date: @date@
+properties:
+  description: Microsoft Windows Server 2025 (Server Edition, Standard)
+  os: windows
+  release: 2025
+  variant: default
+  architecture: x86_64
