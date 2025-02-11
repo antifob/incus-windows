@@ -15,14 +15,14 @@ An Incus-oriented Windows VMs imaging toolset.
 
 The following Windows versions are supported.
 
-- Windows 11 Enterprise
+- Windows 11 Enterprise (24H2)
 - Windows 10 Enterprise (20H2, 21H2, 22H2)
-- Windows Server 2008 R2 SP1
-- Windows Server 2012
-- Windows Server 2016
-- Windows Server 2019
-- Windows Server 2022
 - Windows Server 2025
+- Windows Server 2022
+- Windows Server 2019
+- Windows Server 2016
+- Windows Server 2012
+- Windows Server 2008 R2 SP1
 
 
 ## Requirements

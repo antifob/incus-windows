@@ -79,7 +79,7 @@ fi
 
 if [ X11e = X"${VERSION}" ]; then
 	printf '[+] Add Virtual TPM'
-	incus config device add ${name} vtpm tpm path=/dev/tpm0
+	incus config device add ${name} tpm tpm
 fi
 
 python3 "${PROGBASE}/click.py" "${name}"
