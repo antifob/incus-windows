@@ -17,21 +17,20 @@ def rd(fd):
     return os.read(fd, 1024)
 
 
-rdbuf = b''
-def rduntil(fd, s):
-    global rdbuf
-    while 1:
-        if s in rdbuf:
-            r = rdbuf[:rdbuf.index(s)+len(s)]
-            return r
-        rdbuf += rd(fd)
+def waitbooting(fd):
+    buf = b''
+    while True:
+        # UEFI or CSM
+        if b'PciRoot' in buf or b'Booting from DVD/CD' in buf:
+            break
+        buf += rd(fd)
 
 
 pid, fd = pty.fork()
 if 0 == pid:
     os.execlp('incus', 'incus', 'start', '--console', sys.argv[1])
 else:
-    rduntil(fd, b'PciRoot')
+    waitbooting(fd)
     print('[+] Spamming Enter for 10 seconds')
     for _ in range(10):
         os.write(fd, b'\r\n')

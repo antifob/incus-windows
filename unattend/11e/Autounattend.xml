@@ -15,24 +15,39 @@
     <component xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" language="neutral" name="Microsoft-Windows-PnpCustomizationsWinPE" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" versionScope="nonSxS">
       <DriverPaths>
         <PathAndCredentials wcm:action="add" wcm:keyValue="1">
-         <Path>E:\viostor\2k8R2\amd64</Path>
+         <Path>E:\viostor\w11\amd64</Path>
         </PathAndCredentials>
         <PathAndCredentials wcm:action="add" wcm:keyValue="2">
-         <Path>E:\NetKVM\2k8R2\amd64</Path>
+         <Path>E:\NetKVM\w11\amd64</Path>
         </PathAndCredentials>
         <PathAndCredentials wcm:action="add" wcm:keyValue="3">
-         <Path>E:\vioscsi\2k8R2\amd64</Path>
+         <Path>E:\vioscsi\w11\amd64</Path>
         </PathAndCredentials>
       </DriverPaths>
     </component>
 
 
     <component xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" language="neutral" name="Microsoft-Windows-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" versionScope="nonSxS">
-            <DiskConfiguration>
-                <Disk wcm:action="add">
+      <DiskConfiguration>
+        <Disk wcm:action="add">
                     <CreatePartitions>
                         <CreatePartition wcm:action="add">
                             <Order>1</Order>
+                            <Type>Primary</Type>
+                            <Size>499</Size>
+                        </CreatePartition>
+                        <CreatePartition wcm:action="add">
+                            <Order>2</Order>
+                            <Type>EFI</Type>
+                            <Size>100</Size>
+                        </CreatePartition>
+                        <CreatePartition wcm:action="add">
+                            <Order>3</Order>
+                            <Type>MSR</Type>
+                            <Size>16</Size>
+                        </CreatePartition>
+                        <CreatePartition wcm:action="add">
+                            <Order>4</Order>
                             <Type>Primary</Type>
                             <Extend>true</Extend>
                         </CreatePartition>
@@ -42,16 +57,31 @@
                             <Order>1</Order>
                             <PartitionID>1</PartitionID>
                             <Format>NTFS</Format>
+                            <Label>Recovery</Label>
+                            <TypeID>de94bba4-06d1-4d40-a16a-bfd50179d6ac</TypeID>
+                        </ModifyPartition>
+                        <ModifyPartition wcm:action="add">
+                            <Order>2</Order>
+                            <PartitionID>2</PartitionID>
+                            <Label>System</Label>
+                            <Format>FAT32</Format>
+                        </ModifyPartition>
+                        <ModifyPartition wcm:action="add">
+                            <Order>3</Order>
+                            <PartitionID>3</PartitionID>
+                        </ModifyPartition>
+                        <ModifyPartition wcm:action="add">
+                            <Order>4</Order>
+                            <PartitionID>4</PartitionID>
                             <Label>WINDOWS</Label>
+                            <Format>NTFS</Format>
                             <Letter>C</Letter>
-                            <Extend>false</Extend>
                         </ModifyPartition>
                     </ModifyPartitions>
-                    <DiskID>0</DiskID>
-                    <WillWipeDisk>true</WillWipeDisk>
-                </Disk>
-                <WillShowUI>OnError</WillShowUI>
-            </DiskConfiguration>
+          <DiskID>0</DiskID>
+          <WillWipeDisk>true</WillWipeDisk>
+        </Disk>
+      </DiskConfiguration>
       <ImageInstall>
         <OSImage>
           <InstallFrom>
@@ -59,21 +89,19 @@
               <!-- https://docs.microsoft.com/en-us/windows-hardware/customize/desktop/unattend/microsoft-windows-setup-imageinstall-dataimage-installfrom-metadata-key -->
               <!-- wiminfo sources/install.wim -->
               <Key>/IMAGE/INDEX</Key>
-              <Value>5</Value>
+              <Value>1</Value>
             </MetaData>
           </InstallFrom>
           <InstallTo>
             <DiskID>0</DiskID>
-            <PartitionID>1</PartitionID>
+            <PartitionID>4</PartitionID>
           </InstallTo>
-          <InstallToAvailablePartition>false</InstallToAvailablePartition>
         </OSImage>
       </ImageInstall>
       <UserData>
-        <!-- https://docs.microsoft.com/en-us/windows-server/get-started/kms-client-activation-keys -->
         <ProductKey>
-          <!--<Key>WX4NM-KYWYW-QJJR4-XV3QB-6VM33</Key>-->
-          <WillShowUI>OnError</WillShowUI>
+          <!-- <Key></Key> -->
+          <WillShowUI>Never</WillShowUI>
         </ProductKey>
         <AcceptEula>true</AcceptEula>
         <FullName>Vagrant</FullName>
@@ -158,46 +186,72 @@
         </SynchronousCommand>
         <SynchronousCommand wcm:action="add">
           <Order>2</Order>
+          <Description>Compile .NET assemblies</Description>
+          <CommandLine>cmd.exe /c F:\local\compile-dotnet-assemblies.bat</CommandLine>
+          <RequiresUserInput>true</RequiresUserInput>
+        </SynchronousCommand>
+        <SynchronousCommand wcm:action="add">
+          <Order>3</Order>
           <Description>Hide "New network" banner</Description>
           <CommandLine>cmd.exe /c reg add "HKLM\System\CurrentControlSet\Control\Network\NewNetworkWindowOff"</CommandLine>
           <RequiresUserInput>true</RequiresUserInput>
         </SynchronousCommand>
         <SynchronousCommand wcm:action="add">
-          <Order>8</Order>
-          <Description>Empty hibernation file</Description>
-          <CommandLine>%SYSTEMROOT%\System32\reg.exe ADD HKLM\SYSTEM\CurrentCOntrolSet\Control\Power\ /v HibernateFileSizePercent /t REG_DWORD /d 0 /f</CommandLine>
+          <Order>4</Order>
+          <Description>Perform power optimization</Description>
+          <CommandLine>cmd.exe /c powershell -File F:\local\power.ps1</CommandLine>
           <RequiresUserInput>true</RequiresUserInput>
         </SynchronousCommand>
         <SynchronousCommand wcm:action="add">
-          <Order>9</Order>
-          <Description>Disable hibernation</Description>
-          <CommandLine>%SYSTEMROOT%\System32\reg.exe ADD HKLM\SYSTEM\CurrentCOntrolSet\Control\Power\ /v HibernateEnabled /t REG_DWORD /d 0 /f</CommandLine>
+          <Order>5</Order>
+          <Description>Install QEMU agent</Description>
+          <CommandLine>cmd.exe /c powershell -File F:\local\qemu-ga.ps1</CommandLine>
+          <RequiresUserInput>true</RequiresUserInput>
+        </SynchronousCommand>
+        <!--<SynchronousCommand wcm:action="add">
+          <Order>6</Order>
+          <Description>Install SAC module</Description>
+          <CommandLine>cmd.exe /c powershell -File F:\local\sac.ps1</CommandLine>
+          <RequiresUserInput>true</RequiresUserInput>
+        </SynchronousCommand>-->
+        <SynchronousCommand wcm:action="add">
+          <Order>7</Order>
+          <Description>Enable WinRM</Description>
+          <CommandLine>cmd.exe /c powershell -File F:\local\ConfigureRemotingForAnsible.ps1"</CommandLine>
+          <RequiresUserInput>true</RequiresUserInput>
+        </SynchronousCommand>
+        <SynchronousCommand wcm:action="add">
+          <Order>8</Order>
+          <Description>Enable WinRM</Description>
+          <CommandLine>cmd.exe /c F:\local\sysprepf.bat</CommandLine>
           <RequiresUserInput>true</RequiresUserInput>
         </SynchronousCommand>
       </FirstLogonCommands>
       <OOBE>
         <HideEULAPage>true</HideEULAPage>
-        <!--<HideLocalAccountScreen>true</HideLocalAccountScreen>-->
-        <!--<HideOEMRegistrationScreen>true</HideOEMRegistrationScreen>-->
-        <!--<HideOnlineAccountScreens>true</HideOnlineAccountScreens>-->
-        <!--<HideWirelessSetupInOOBE>true</HideWirelessSetupInOOBE>-->
+        <HideLocalAccountScreen>true</HideLocalAccountScreen>
+        <HideOEMRegistrationScreen>true</HideOEMRegistrationScreen>
+        <HideOnlineAccountScreens>true</HideOnlineAccountScreens>
+        <HideWirelessSetupInOOBE>true</HideWirelessSetupInOOBE>
         <NetworkLocation>Other</NetworkLocation>
         <ProtectYourPC>1</ProtectYourPC>
       </OOBE>
       <RegisteredOwner/>
     </component>
+
+    <component name="Microsoft-Windows-International-Core" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <InputLocale>en-US</InputLocale>
+      <SystemLocale>en-US</SystemLocale>
+      <UILanguage>en-US</UILanguage>
+      <UserLocale>en-US</UserLocale>
+    </component>
+
   </settings>
 
   <settings pass="offlineServicing">
     <component xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" language="neutral" name="Microsoft-Windows-LUA-Settings" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" versionScope="nonSxS">
       <EnableLUA>false</EnableLUA>
     </component>
-
-    <!-- https://serverfault.com/questions/471961/server-2012-autounattend-xml-make-offline-drives-online -->
-    <!-- https://social.technet.microsoft.com/Forums/exchange/en-US/d3da24c1-adb3-43e4-8dba-b62c4f4d24a8/mdt-deployment-windows-server-2008-enterprise-disk-1-offline?forum=winserversetup -->
-    <!-- <component name="Microsoft-Windows-PartitionManager" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <SanPolicy>1</SanPolicy>
-    </component> -->
   </settings>
 
 </unattend>

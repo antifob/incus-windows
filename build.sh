@@ -84,7 +84,7 @@ dliso() {
 
 printf '[+] Downloading virtio drivers for Windows\n'
 
-dliso "${VIRTIO_ARCHIVE}/virtio-win-${VIRTIO_VERSION}${VIRTIO_REVISION}/virtio-win.iso" virtio-win.iso "${VIRTIO_SHA256}"
+dliso "${VIRTIO_ARCHIVE}/virtio-win-${VIRTIO_VERSION}/virtio-win.iso" "virtio-win-${VIRTIO_VERSION}.iso" "${VIRTIO_SHA256}"
 
 
 printf '[+] Downloading Windows ISO file\n'
@@ -100,7 +100,7 @@ mkdir -p "${OUTDIR}"
 sh "${PROGBASE}/tools/pack.sh" \
 	"$1" \
 	"${ISODIR}/${fname}" \
-	"${ISODIR}/virtio-win.iso" \
+	"${ISODIR}/virtio-win-${VIRTIO_VERSION}.iso" \
 	"${PROGBASE}/local/" \
 	"${OUTDIR}"
 
