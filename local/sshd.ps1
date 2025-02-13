@@ -1,5 +1,8 @@
-echo "Install OpenSSH Server if not already installed"
-Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
+echo "Install OpenSSH Server"
+$feature = Get-WindowsCapability -Online | Where-Object { $_.Name -like "OpenSSH.Server*" }
+
+Write-Host "Add Feature: $($feature.Name)"
+Add-WindowsCapability -Online -Name $feature.Name
 
 echo "Set the SSHD service to start automatically"
 Set-Service -Name sshd -StartupType 'Automatic'
