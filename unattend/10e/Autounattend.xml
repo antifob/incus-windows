@@ -213,7 +213,13 @@
         </SynchronousCommand>
         <SynchronousCommand wcm:action="add">
           <Order>8</Order>
-          <Description>Enable WinRM</Description>
+          <Description>Download and Install WinFSP</Description>
+          <CommandLine>cmd.exe /c powershell -File F:\local\winfsp.ps1</CommandLine>
+          <RequiresUserInput>false</RequiresUserInput>
+        </SynchronousCommand>
+        <SynchronousCommand wcm:action="add">
+          <Order>99</Order>
+          <Description>Run sysprep</Description>
           <CommandLine>cmd.exe /c F:\local\sysprepf.bat</CommandLine>
           <RequiresUserInput>true</RequiresUserInput>
         </SynchronousCommand>
