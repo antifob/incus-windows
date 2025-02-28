@@ -36,6 +36,12 @@ else:
         os.write(fd, b'\r\n')
         time.sleep(1)
 
+    print('[+] Terminate incus start console...')
+    os.kill(pid, 15)
+    try:
+        os.waitpid(pid, 0)
+    except ChildProcessError as e:
+        print(f'[+] {e}')
 
 print('[+] Letting the installer do its thing...')
 print('[+] Waiting for the VM to be stopped for 10 seconds')
