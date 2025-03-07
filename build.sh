@@ -31,7 +31,7 @@ done
 
 [ X-- != X"${1:-}" ] || shift
 
-if [ 1 -ne $# ]; then
+if [ 1 -ne $# ] && [ 2 -ne $# ]; then
 	usage >&2
 	targets=$(cut -d' ' -f1 "${PROGBASE}/urls.txt" | paste -sd' ')
 	printf 'available targets: %s\n' "${targets}"
@@ -45,16 +45,17 @@ die() {
 	exit 1
 }
 
+VERSION="${1}"
 
 # sanity check on the target
-if echo "${1}" | grep -q -- "^[a-z0-9-]$"; then
+if echo "${VERSION}" | grep -q -- "^[a-z0-9-]$"; then
 	printf 'error: invalid target name\n' >&2
 	exit 1
 fi
 
 # verify the target
-url=$(awk "/^${1} /{print \$2;}" "${PROGBASE}/urls.txt")
-[ X != X"${url}" ] || die 'error: unable to locate URL for target: %s\n' "${1}"
+url=$(awk "/^${VERSION} /{print \$2;}" "${PROGBASE}/urls.txt")
+[ X != X"${url}" ] || die 'error: unable to locate URL for target: %s\n' "${VERSION}"
 
 fname=$(basename "${url}")
 sha=$(awk "/ ${fname}$/{print \$1;}" "${PROGBASE}/isos.sha256")
@@ -63,7 +64,7 @@ sha=$(awk "/ ${fname}$/{print \$1;}" "${PROGBASE}/isos.sha256")
 # -------------------------------------------------------------------- #
 
 ISODIR="${ISODIR:-./isos}"
-OUTDIR="${OUTDIR:-./output/win${1}}"
+OUTDIR="${OUTDIR:-./output/win${VERSION}}"
 
 
 # dliso url fname sha256
@@ -97,16 +98,18 @@ printf '[+] Building image\n'
 [ ! -d "${OUTDIR}" ] || die 'error: %s already exists\n' "${OUTDIR}"
 mkdir -p "${OUTDIR}"
 
+shift
 sh "${PROGBASE}/tools/pack.sh" \
-	"$1" \
+	"${VERSION}" \
 	"${ISODIR}/${fname}" \
 	"${ISODIR}/virtio-win-${VIRTIO_VERSION}.iso" \
-	"${PROGBASE}/local/" \
-	"${OUTDIR}"
+	"${PROGBASE}/oem/" \
+	"${OUTDIR}" \
+	"${@}"
 
 
 printf '[+] Generating metadata\n'
 
-exec sh "${PROGBASE}/tools/mkmeta" "${1}" >"${OUTDIR}/incus.tar.xz"
+exec sh "${PROGBASE}/tools/mkmeta" "${VERSION}" >"${OUTDIR}/incus.tar.xz"
 
 # ==================================================================== #

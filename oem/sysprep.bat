@@ -8,4 +8,4 @@ netsh advfirewall firewall set rule name="Windows Remote Management (HTTP-In)" n
 echo netsh advfirewall firewall set rule name="Allow WinRM HTTPS" new action=allow ^>^> %%WINDIR%%\Temp\SetupComplete.log >> %WINDIR%\Setup\Scripts\SetupComplete.cmd
 echo netsh advfirewall firewall set rule name="Windows Remote Management (HTTP-In)" new action=allow ^>^> %%WINDIR%%\Temp\SetupComplete.log >> %WINDIR%\Setup\Scripts\SetupComplete.cmd
 
-%WINDIR%\System32\Sysprep\sysprep.exe /generalize /oobe /shutdown /unattend:F:\local\unattend.xml
+%WINDIR%\System32\Sysprep\sysprep.exe /generalize /oobe /shutdown /unattend:%1

@@ -60,6 +60,21 @@ All systems have an administrator-level account named `admin` with
 password `changeme`.
 
 
+## Customizations
+
+One can add a directory to add to the boot image and have a script in
+it be called automatically during configuration.
+
+```
+mkdir local/
+echo "echo hi" >local/main.ps1
+sh build.sh 2025 local/
+```
+
+On the image, the directory will be located at `X:\local\`, if `X` is
+the drive.
+
+
 ## Considerations
 
 ### Missing updates
@@ -88,11 +103,11 @@ automatic configuration is only minimally done/supported. If you'd
 like to build a relatively similar image:
 
 - let Windows install itself using the provided `Autounattend.xml`;
-- on the desktop, open `powershell` and run `E:\local\install-ps3.ps1` (this can take a while);
-- on reboot (automatic), open `powershell` and run `E:\local\ConfigureRemotingForAnsible.ps1`;
-- run `E:\local\power.ps1`;
-- run `E:\local\qemu-ga.ps1`;
-- finally, run `E:\local\sysprep.bat`.
+- on the desktop, open `powershell` and run `E:\OEM\install-ps3.ps1` (this can take a while);
+- on reboot (automatic), open `powershell` and run `E:\OEM\ConfigureRemotingForAnsible.ps1`;
+- run `E:\OEM\power.ps1`;
+- run `E:\OEM\qemu-ga.ps1`;
+- finally, run `E:\OEM\sysprep.bat E:\OEM\unattend.xml`.
 
 ### Serial console access
 
@@ -137,9 +152,8 @@ C:\Windows\System32>
   haha no, not exactly! Windows 10 sees two (2) devices during
   installation and three (3) afterwards. :p
 
-  The way this is dealt with is having the `Autounattend.xml` file
-  point to either `local/sysprep.bat` or `local/sysprepf.bat` based
-  on how the drives are mounted.
+  This is being dealt with automatically by the configuration script;
+  which detects the setup drive and passes it around.
 - EMS/SAC can be installed on the Server 2012 image, but doesn't seem to
   work.
 
