@@ -113,8 +113,8 @@ like to build a relatively similar image:
 
 It is possible to access Windows's serial console interface by
 installing the EMS/SAC service. An installation script is provided by
-disabled. To install EMS/SAC simply uncomment the stanza in the
-`Autounattend.xml` file. Note that installing EMS/SAC on Windows 10
+disabled. To install EMS/SAC simply uncomment the instruction in the
+`oem/main.ps1` file. Note that installing EMS/SAC on Windows 10
 requires network connectivity and that it appears to be broken on
 Server 2012.
 
