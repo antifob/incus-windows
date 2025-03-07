@@ -3,6 +3,7 @@
 import os
 import pty
 import select
+import signal
 import sys
 import time
 
@@ -36,12 +37,12 @@ else:
         os.write(fd, b'\r\n')
         time.sleep(1)
 
-    print('[+] Terminate incus start console...')
-    os.kill(pid, 15)
+    print('[+] Releasing console')
+    os.kill(pid, signal.SIGTERM)
     try:
         os.waitpid(pid, 0)
     except ChildProcessError as e:
-        print(f'[+] {e}')
+        print('[+]', str(e))
 
 print('[+] Letting the installer do its thing...')
 print('[+] Waiting for the VM to be stopped for 10 seconds')
