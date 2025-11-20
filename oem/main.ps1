@@ -7,6 +7,11 @@ get-wmiobject win32_logicaldisk | % {
 cmd.exe /c "${setupdrive}\OEM\compile-dotnet-assemblies.bat"
 reg.exe add "HKLM\System\CurrentControlSet\Control\Network\NewNetworkWindowOff"
 
+$agentdrive = Get-WmiObject -Class Win32_Volume | Where-Object { $_.Label -eq "incus-agent" }
+if ($agentdrive -and (Test-Path -Path "$($agentdrive.Name)install.ps1")) {
+	. "$($agentdrive.Name)install.ps1"
+}
+
 . "${setupdrive}\OEM\power.ps1"
 . "${setupdrive}\OEM\qemu-ga.ps1"
 # . "${setupdrive}\OEM\sac.ps1"
