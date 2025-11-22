@@ -115,6 +115,10 @@ if [ X = X"${isopath}" ]; then
 	dliso "${url}" "${fname}" "${sha}"
 
 	isopath="${ISODIR}/${fname}"
+else
+	isodir=$(d=$(dirname -- "${isopath}"); cd "${d}" && pwd)
+	isofile=$(basename -- "${isopath}")
+	isopath="${isodir}/${isofile}"
 fi
 
 
