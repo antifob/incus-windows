@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# usage: $0 version windows.iso virtio.iso oem/ dest/ [local/]
+# usage: $0 version windows.iso virtio.iso oem/ dest/ xmlpath [local/]
 #
 set -eu
 
@@ -13,8 +13,9 @@ WINDOWS="${2}"
 VIRTIO="${3}"
 OEM=$(cd "${4}" && pwd)
 DESTDIR=$(cd "${5}" && pwd)
+XMLPATH="${6}"
 LOCAL=
-[ X = X"${6:-}" ] || LOCAL=$(cd "${6}" && pwd)
+[ X = X"${7:-}" ] || LOCAL=$(cd "${7}" && pwd)
 
 # -------------------------------------------------------------------- #
 
@@ -52,7 +53,7 @@ xorriso -report_about SORRY -osirrox on -indev "${VIRTIODIR}/${VIRTIOFILE}" -ext
 find "${TMPDIR}/virtio-win-${VERSION}/" -type d -exec chmod u+rwx {} \;
 
 cp -R "${OEM}" "${TMPDIR}/virtio-win-${VERSION}/OEM/"
-cp "${PROJROOT}/unattend/${VERSION}/Autounattend.xml" "${TMPDIR}/virtio-win-${VERSION}/"
+cp "${XMLPATH}" "${TMPDIR}/virtio-win-${VERSION}/"
 [ X = X"${LOCAL}" ] || cp -R "${LOCAL}" "${TMPDIR}/virtio-win-${VERSION}/local/"
 
 rm -f "${DESTDIR}/unattended-${VERSION}.iso"

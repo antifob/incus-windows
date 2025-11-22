@@ -12,16 +12,19 @@ PROGNAME=$(basename -- "${0}")
 PROGBASE=$(d=$(dirname -- "${0}"); cd "${d}" && pwd)
 
 usage() {
-	printf 'usage: %s [-h] [-i altiso] target\n' "${PROGNAME}"
+	printf 'usage: %s [-h] [-i altiso] [-x xml] target\n' "${PROGNAME}"
 }
 
 isopath=
-while getopts hi:- argv; do
+xmlpath=
+while getopts hi:x:- argv; do
 	case "${argv}" in
 	h)	usage
 		exit 0
 		;;
 	i)	isopath="${OPTARG}"
+		;;
+	x)	xmlpath="${OPTARG}"
 		;;
 	-)	break
 		;;
@@ -66,6 +69,18 @@ if [ X = X"${isopath}" ]; then
 	[ X != X"${sha}" ] || die 'error: unable to locate SHA-256 digest for %s\n' "${fname}"
 elif [ ! -r "${isopath}" ]; then
 	die 'error: not readable: %s\n' "${isopath}"
+fi
+
+if [ X = X"${xmlpath}" ]; then
+	xmlpath="${PROGBASE}/unattend/${VERSION}/Autounattend.xml"
+else
+	xmldir=$(d=$(dirname -- "${xmlpath}"); cd "${d}" && pwd)
+	xmlfile=$(basename -- "${xmlpath}")
+	xmlpath="${xmldir}/${xmlfile}"
+fi
+
+if [ ! -r "${xmlpath}" ]; then
+	die 'error: not readable: %s\n' "${xmlpath}"
 fi
 
 # -------------------------------------------------------------------- #
@@ -115,6 +130,7 @@ sh "${PROGBASE}/tools/pack.sh" \
 	"${ISODIR}/virtio-win-${VIRTIO_VERSION}.iso" \
 	"${PROGBASE}/oem/" \
 	"${OUTDIR}" \
+	"${xmlpath}" \
 	"${@}"
 
 
