@@ -12,13 +12,16 @@ PROGNAME=$(basename -- "${0}")
 PROGBASE=$(d=$(dirname -- "${0}"); cd "${d}" && pwd)
 
 usage() {
-	printf 'usage: %s [-h] target\n' "${PROGNAME}"
+	printf 'usage: %s [-h] [-i altiso] target\n' "${PROGNAME}"
 }
 
-while getopts h- argv; do
+isopath=
+while getopts hi:- argv; do
 	case "${argv}" in
 	h)	usage
 		exit 0
+		;;
+	i)	isopath="${OPTARG}"
 		;;
 	-)	break
 		;;
@@ -54,18 +57,21 @@ if echo "${VERSION}" | grep -q -- "^[a-z0-9-]$"; then
 fi
 
 # verify the target
-url=$(awk "/^${VERSION} /{print \$2;}" "${PROGBASE}/urls.txt")
-[ X != X"${url}" ] || die 'error: unable to locate URL for target: %s\n' "${VERSION}"
+if [ X = X"${isopath}" ]; then
+	url=$(awk "/^${VERSION} /{print \$2;}" "${PROGBASE}/urls.txt")
+	[ X != X"${url}" ] || die 'error: unable to locate URL for target: %s\n' "${VERSION}"
 
-fname=$(basename "${url}")
-sha=$(awk "/ ${fname}$/{print \$1;}" "${PROGBASE}/isos.sha256")
-[ X != X"${sha}" ] || die 'error: unable to locate SHA-256 digest for %s\n' "${fname}"
+	fname=$(basename "${url}")
+	sha=$(awk "/ ${fname}$/{print \$1;}" "${PROGBASE}/isos.sha256")
+	[ X != X"${sha}" ] || die 'error: unable to locate SHA-256 digest for %s\n' "${fname}"
+elif [ ! -r "${isopath}" ]; then
+	die 'error: not readable: %s\n' "${isopath}"
+fi
 
 # -------------------------------------------------------------------- #
 
 ISODIR="${ISODIR:-./isos}"
 OUTDIR="${OUTDIR:-./output/win${VERSION}}"
-
 
 # dliso url fname sha256
 dliso() {
@@ -88,9 +94,13 @@ printf '[+] Downloading virtio drivers for Windows\n'
 dliso "${VIRTIO_ARCHIVE}/virtio-win-${VIRTIO_VERSION}/virtio-win.iso" "virtio-win-${VIRTIO_VERSION}.iso" "${VIRTIO_SHA256}"
 
 
-printf '[+] Downloading Windows ISO file\n'
+if [ X = X"${isopath}" ]; then
+	printf '[+] Downloading Windows ISO file\n'
 
-dliso "${url}" "${fname}" "${sha}"
+	dliso "${url}" "${fname}" "${sha}"
+
+	isopath="${ISODIR}/${fname}"
+fi
 
 
 printf '[+] Building image\n'
@@ -101,7 +111,7 @@ mkdir -p "${OUTDIR}"
 shift
 sh "${PROGBASE}/tools/pack.sh" \
 	"${VERSION}" \
-	"${ISODIR}/${fname}" \
+	"${isopath}" \
 	"${ISODIR}/virtio-win-${VIRTIO_VERSION}.iso" \
 	"${PROGBASE}/oem/" \
 	"${OUTDIR}" \
