@@ -37,9 +37,9 @@ done
 
 [ X-- != X"${1:-}" ] || shift
 
+targets=$(cut -d' ' -f1 "${PROGBASE}/urls.txt" | paste -sd' ')
 if [ 1 -ne $# ] && [ 2 -ne $# ]; then
 	usage >&2
-	targets=$(cut -d' ' -f1 "${PROGBASE}/urls.txt" | paste -sd' ')
 	printf 'available targets: %s\n' "${targets}"
 	exit 1
 fi
@@ -56,6 +56,11 @@ VERSION="${1}"
 # sanity check on the target
 if echo "${VERSION}" | grep -q -- "^[a-z0-9-]$"; then
 	printf 'error: invalid target name\n' >&2
+	exit 1
+fi
+if [ ! -f "${PROGBASE}/metas/${VERSION}.in" ]; then
+	printf 'error: unknown version\n' >&2
+	printf 'available targets: %s\n' "${targets}" >&2
 	exit 1
 fi
 
