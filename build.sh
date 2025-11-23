@@ -58,7 +58,7 @@ if echo "${VERSION}" | grep -q -- "^[a-z0-9-]$"; then
 	printf 'error: invalid target name\n' >&2
 	exit 1
 fi
-if [ ! -f "${PROGBASE}/metas/${VERSION}.in" ]; then
+if [ ! -f "${PROGBASE}/tools/metas/${VERSION}.in" ]; then
 	printf 'error: unknown version\n' >&2
 	printf 'available targets: %s\n' "${targets}" >&2
 	exit 1
