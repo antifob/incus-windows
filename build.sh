@@ -12,20 +12,17 @@ PROGNAME=$(basename -- "${0}")
 PROGBASE=$(d=$(dirname -- "${0}"); cd "${d}" && pwd)
 
 usage() {
-	printf 'usage: %s [-h] [-i altiso] [-m meta] [-x xml] target\n' "${PROGNAME}"
+	printf 'usage: %s [-h] [-i altiso] [-x xml] target\n' "${PROGNAME}"
 }
 
 isopath=
 xmlpath=
-metapath=
-while getopts hi:m:x:- argv; do
+while getopts hi:x:- argv; do
 	case "${argv}" in
 	h)	usage
 		exit 0
 		;;
 	i)	isopath="${OPTARG}"
-		;;
-	m)	metapath="${OPTARG}"
 		;;
 	x)	xmlpath="${OPTARG}"
 		;;
@@ -58,19 +55,13 @@ VERSION="${1}"
 
 # sanity check on the target
 if echo "${VERSION}" | grep -q -- "^[a-z0-9-]$"; then
-	die 'error: invalid target name\n'
+	printf 'error: invalid target name\n' >&2
+	exit 1
 fi
-
-if [ X != X"${metapath}" ]; then
-	metadir=$(d=$(dirname -- "${0}"); cd "${d}" && pwd)
-	metafile=$(basename -- "${0}")
-	metapath="${metadir}/${metafile}"
-elif [ ! -f "${PROGBASE}/tools/metas/${VERSION}.in" ]; then
+if [ ! -f "${PROGBASE}/tools/metas/${VERSION}.in" ]; then
 	printf 'error: unknown version\n' >&2
 	printf 'available targets: %s\n' "${targets}" >&2
 	exit 1
-else
-	metapath="${PROGBASE}/tools/metas/${VERSION}.in"
 fi
 
 # verify the target
