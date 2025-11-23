@@ -5,6 +5,7 @@ An Incus-oriented Windows VMs imaging toolset.
 
 ## Features
 
+- Custom/local ISO support.
 - WinRM access (Ansible-ready).
 - High-performance power configuration.
 - Most/all drivers installed.
@@ -43,6 +44,14 @@ incus admin init --auto
 
 ## Usage
 
+The common workflow is to run the `build.sh` script with the Windows
+version you want to have an VM image for. If you'd like to use a
+custom ISO or , read below.
+
+Note that, unless the user changed the unattended install configuration,
+all systems have an administrator-level account named `admin` with
+password `changeme`.
+
 ```
 # Build a disk image (disk.qcow2) and metadata archive (incus.tar.xz)
 # in ./output/win2022/
@@ -56,11 +65,9 @@ incus launch win2022 w22 -c security.secureboot=false
 incus launch win2008 w2k8 -c security.secureboot=false -c security.csm=true
 ```
 
-All systems have an administrator-level account named `admin` with
-password `changeme`.
-
-
 ## Customizations
+
+### Adding files
 
 One can add a directory to add to the boot image and have a script in
 it be called automatically during configuration.
@@ -74,6 +81,22 @@ sh build.sh 2025 local/
 On the image, the directory will be located at `X:\local\`, if `X` is
 the drive.
 
+### Custom ISO and `Autounattend.xml`
+
+There are two (2) options that can be useful to further customize the
+build process and image. **Note that support for this kind of installs
+will not be provided by this project**.
+
+- `-i` can be used to specify the local path to the Windows installer ISO
+  to use. This could be used for alternate Windows builds.
+- `-x` can be used to specify the local path to an `Autounattend.xml`
+  allowing for installation tweaking.
+
+Note that the version tag must still match an existing targets.
+
+```
+sh build.sh -i my.iso -x my.xml 10e
+```
 
 ## Considerations
 
