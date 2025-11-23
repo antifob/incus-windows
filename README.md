@@ -81,9 +81,9 @@ sh build.sh 2025 local/
 On the image, the directory will be located at `X:\local\`, if `X` is
 the drive.
 
-### Custom ISO, `Autounattend.xml` and metadata
+### Custom ISO and `Autounattend.xml`
 
-There are three (3) options that can be useful to further customize the
+There are two (2) options that can be useful to further customize the
 build process and image. **Note that support for this kind of installs
 will not be provided by this project**.
 
@@ -91,8 +91,12 @@ will not be provided by this project**.
   to use. This could be used for alternate Windows builds.
 - `-x` can be used to specify the local path to an `Autounattend.xml`
   allowing for installation tweaking.
-- `-m` can be used to specify the local path to an alternate Incus image
-  metadata file (normally in `tools/metas/`).
+
+Note that the version tag must still match an existing targets.
+
+```
+sh build.sh -i my.iso -x my.xml 10e
+```
 
 ## Considerations
 
