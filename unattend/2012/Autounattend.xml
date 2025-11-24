@@ -189,7 +189,7 @@
         <SynchronousCommand wcm:action="add">
           <Order>2</Order>
           <Description>Run configuration script</Description>
-          <CommandLine>cmd.exe /c powershell -File E:\OEM\main.ps1</CommandLine>
+          <CommandLine>cmd.exe /c powershell -File F:\OEM\main.ps1</CommandLine>
           <RequiresUserInput>true</RequiresUserInput>
         </SynchronousCommand>
       </FirstLogonCommands>

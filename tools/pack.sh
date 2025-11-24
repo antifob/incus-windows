@@ -71,9 +71,10 @@ __EOF__
 
 printf '[+] Launching the VM\n'
 
-incus init "${name}" --empty --vm -c security.secureboot=false -c limits.cpu=4 -c limits.memory=8GB -d root,size=30GiB
+incus init "${name}" --empty --vm -c security.secureboot=false -c limits.cpu=4 -c limits.memory=8GB -c image.os=windows -d root,size=30GiB
 incus config device set "${name}" root io.bus=virtio-blk
 incus config device add "${name}" iso disk source="${WINDIR}/${WINFILE}" boot.priority=10
+incus config device add "${name}" incusagent disk source="agent:config"
 apparmr | incus config set "${name}" raw.apparmor -
 printf -- '-drive file=%s,index=0,media=cdrom,if=ide -drive file=%s,index=1,media=cdrom,if=ide\n' "${WINDIR}/${WINFILE}" "${DESTDIR}/unattended-${VERSION}.iso" | incus config set "${name}" raw.qemu -
 
@@ -89,7 +90,7 @@ fi
 python3 "${PROGBASE}/click.py" "${name}"
 
 printf '[+] Converting the VM to an image\n'
-incus publish "${name}" --alias "${name}" --compression none
+incus publish "${name}" --alias "${name}" --compression none requirements.cdrom_agent=true
 
 printf '[+] Exporting the image\n'
 incus image export "${name}" "${DESTDIR}"
