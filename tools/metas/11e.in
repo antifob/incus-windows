@@ -6,3 +6,4 @@ properties:
   release: 11e
   variant: default
   architecture: x86_64
+  requirements.cdrom_agent: true

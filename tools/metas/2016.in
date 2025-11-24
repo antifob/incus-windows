@@ -6,3 +6,4 @@ properties:
   release: 2016
   variant: default
   architecture: x86_64
+  requirements.cdrom_agent: true
