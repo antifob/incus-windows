@@ -8,6 +8,7 @@ An Incus-oriented Windows VMs imaging toolset.
 - Custom/local ISO support.
 - WinRM access (Ansible-ready).
 - High-performance power configuration.
+- Incus agent installed (except 2008 and 2012).
 - Most/all drivers installed.
 - Serial console access (disabled by default).
 
@@ -61,8 +62,17 @@ sh incus-windows/build.sh 2022
 sh incus-windows/tools/import.sh ./output/win2022/
 
 # Create and launch the virtual machine
-incus launch win2022 w22 -c security.secureboot=false
-incus launch win2008 w2k8 -c security.secureboot=false -c security.csm=true
+incus init win2022 w22 -c security.secureboot=false
+incus config device add w22 iso-agent source=agent:config
+incus start w22
+incus init win2008 w2k8 -c security.secureboot=false -c security.csm=true
+incus config device add w2k8 iso-agent source=agent:config
+incus start w2k8
+
+# Optionally, create a profile for easier launches
+incus profile create winvm
+incus profile device add winvm iso-agent source=agent:config
+incus launch win2022 w22 -p default -p winvm
 ```
 
 ## Customizations
