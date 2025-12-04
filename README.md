@@ -63,7 +63,7 @@ sh incus-windows/tools/import.sh ./output/win2022/
 
 # Create and launch the virtual machine
 incus init win2022 w22 -c security.secureboot=false
-incus config device add w22 iso-agent source=agent:config
+incus config device add w22 iso-agent disk source=agent:config
 incus start w22
 incus init win2008 w2k8 -c security.secureboot=false -c security.csm=true
 incus config device add w2k8 iso-agent source=agent:config
