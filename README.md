@@ -66,12 +66,12 @@ incus init win2022 w22 -c security.secureboot=false
 incus config device add w22 iso-agent disk source=agent:config
 incus start w22
 incus init win2008 w2k8 -c security.secureboot=false -c security.csm=true
-incus config device add w2k8 iso-agent source=agent:config
+incus config device add w2k8 iso-agent disk source=agent:config
 incus start w2k8
 
 # Optionally, create a profile for easier launches
 incus profile create winvm
-incus profile device add winvm iso-agent source=agent:config
+incus profile device add winvm iso-agent disk source=agent:config
 incus launch win2022 w22 -p default -p winvm
 ```
 
