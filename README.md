@@ -7,6 +7,7 @@ An Incus-oriented Windows VMs imaging toolset.
 
 - Custom/local ISO support.
 - WinRM access (Ansible-ready).
+- SPICE guest tools (copy-paste and better video performance).
 - High-performance power configuration.
 - Incus agent installed (except 2008 and 2012).
 - Most/all drivers installed.
