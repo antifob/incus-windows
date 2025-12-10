@@ -84,7 +84,8 @@ fi
 
 if [ X11e = X"${VERSION}" ]; then
 	printf '[+] Add Virtual TPM'
-	incus config device add ${name} tpm tpm
+	incus config device add "${name}" tpm tpm
+	incus config device set "${name}" root size=60GiB
 fi
 
 python3 "${PROGBASE}/click.py" "${name}"

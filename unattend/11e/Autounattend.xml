@@ -34,12 +34,12 @@
                         <CreatePartition wcm:action="add">
                             <Order>1</Order>
                             <Type>Primary</Type>
-                            <Size>499</Size>
+                            <Size>4000</Size>
                         </CreatePartition>
                         <CreatePartition wcm:action="add">
                             <Order>2</Order>
                             <Type>EFI</Type>
-                            <Size>100</Size>
+                            <Size>500</Size>
                         </CreatePartition>
                         <CreatePartition wcm:action="add">
                             <Order>3</Order>
@@ -58,7 +58,7 @@
                             <PartitionID>1</PartitionID>
                             <Format>NTFS</Format>
                             <Label>Recovery</Label>
-                            <TypeID>de94bba4-06d1-4d40-a16a-bfd50179d6ac</TypeID>
+                            <TypeID>DE94BBA4-06D1-4D40-A16A-BFD50179D6AC</TypeID>
                         </ModifyPartition>
                         <ModifyPartition wcm:action="add">
                             <Order>2</Order>
