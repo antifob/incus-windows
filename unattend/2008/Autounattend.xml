@@ -58,8 +58,8 @@
             <MetaData wcm:action="add">
               <!-- https://docs.microsoft.com/en-us/windows-hardware/customize/desktop/unattend/microsoft-windows-setup-imageinstall-dataimage-installfrom-metadata-key -->
               <!-- wiminfo sources/install.wim -->
-              <Key>/IMAGE/INDEX</Key>
-              <Value>5</Value>
+              <Key>/IMAGE/NAME</Key>
+              <Value>Windows Server 2008 R2 SERVERSTANDARD</Value>
             </MetaData>
           </InstallFrom>
           <InstallTo>
