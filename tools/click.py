@@ -1,13 +1,20 @@
 #!/usr/bin/env python3
+#
+# This file is part of incus-windows.
+#
+# Copyright 2022-2026, Philippe Grégoire <git@pgregoire.xyz>
+#
 
 import os
 import pty
 import select
 import signal
+import subprocess
 import sys
 import time
 
 
+# internal tool, ensure that we have an argument
 VM = sys.argv[1]
 
 
@@ -29,7 +36,7 @@ def waitbooting(fd):
 
 pid, fd = pty.fork()
 if 0 == pid:
-    os.execlp('incus', 'incus', 'start', '--console', sys.argv[1])
+    os.execlp('incus', 'incus', 'start', '--console', VM)
 else:
     waitbooting(fd)
     print('[+] Spamming Enter for 10 seconds')
@@ -47,14 +54,17 @@ else:
 print('[+] Letting the installer do its thing...')
 print('[+] Waiting for the VM to be stopped for 10 seconds')
 print("[+] You may connect to the VM's VGA using the following command")
-print('incus console --type=vga {}'.format(sys.argv[1]))
+print('incus console --type=vga {}'.format(VM))
 n = 0
 while n < 10:
-    s = os.popen('incus ls --format=csv -cs {}'.format(sys.argv[1])).read().strip()
-    if 'STOPPED' == s:
-        n += 1
-    else:
-        n = 0
+    o = subprocess.check_output(['incus', 'ls', '-fcsv', '-cns', VM], env={'LANG': 'C'})
+    for ln in o.split(b'\n'):
+        if not ln.startswith(f'{VM},'.encode()):
+            continue
+        if ln.endswith(b',STOPPED'):
+            n += 1
+        else:
+            n = 0
     time.sleep(1)
 
 print('[+] VM stopped')
