@@ -83,7 +83,6 @@ if [ X2008 = X"${VERSION}" ]; then
 fi
 
 if [ X11e = X"${VERSION}" ]; then
-	printf '[+] Add Virtual TPM'
 	incus config device add "${name}" tpm tpm
 	incus config device set "${name}" root size=60GiB
 fi
