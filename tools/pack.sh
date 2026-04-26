@@ -56,6 +56,13 @@ cp -R "${OEM}" "${TMPDIR}/virtio-win-${VERSION}/OEM/"
 cp "${XMLPATH}" "${TMPDIR}/virtio-win-${VERSION}/"
 [ X = X"${LOCAL}" ] || cp -R "${LOCAL}" "${TMPDIR}/virtio-win-${VERSION}/local/"
 
+# strip viosock driver path from staged unattend if absent in the virtio iso
+if [ ! -d "${TMPDIR}/virtio-win-${VERSION}/viosock" ]; then
+	printf '[+] viosock not present in virtio iso, stripping from unattend\n'
+	sed -i '/<!-- VIOSOCK_BEGIN -->/,/<!-- VIOSOCK_END -->/d' \
+		"${TMPDIR}/virtio-win-${VERSION}/$(basename "${XMLPATH}")"
+fi
+
 rm -f "${DESTDIR}/unattended-${VERSION}.iso"
 xorriso -as mkisofs -o "${DESTDIR}/unattended-${VERSION}.iso" -R -J -V STUFF "${TMPDIR}/virtio-win-${VERSION}/"
 
