@@ -23,6 +23,11 @@
         <PathAndCredentials wcm:action="add" wcm:keyValue="3">
          <Path>E:\vioscsi\2k19\amd64</Path>
         </PathAndCredentials>
+        <!-- VIOSOCK_BEGIN -->
+        <PathAndCredentials wcm:action="add" wcm:keyValue="4">
+         <Path>E:\viosock\2k19\amd64</Path>
+        </PathAndCredentials>
+        <!-- VIOSOCK_END -->
       </DriverPaths>
     </component>
 
