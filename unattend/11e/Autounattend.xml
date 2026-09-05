@@ -176,6 +176,11 @@
           <Description>Disable Consumer Cloud Content</Description>
           <Path>cmd.exe /c "reg add HKLM\SOFTWARE\Policies\Microsoft\Windows\CloudContent /v DisableWindowsConsumerFeatures /t REG_DWORD /d 1 /f"</Path>
         </RunSynchronousCommand>
+        <RunSynchronousCommand wcm:action="add">
+          <Order>3</Order>
+          <Description>Prevent Automatic Device Encryption</Description>
+          <Path>cmd.exe /c "reg add HKLM\SYSTEM\CurrentControlSet\Control\BitLocker /v PreventDeviceEncryption /t REG_DWORD /d 1 /f"</Path>
+        </RunSynchronousCommand>
       </RunSynchronous>
     </component>
   </settings>
