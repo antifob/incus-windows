@@ -25,7 +25,15 @@ TMPDIR="${PROJROOT}/tmp/"
 [ -d "${TMPDIR}" ] || mkdir "${TMPDIR}"
 
 WINFILE=$(basename "${WINDOWS}")
-WINDIR=$(d=$(dirname -- "${WINDOWS}"); cd "${d}" && pwd)
+case "${WINDOWS}" in
+/var/lib/incus/images/*)
+	# The ISO lives on the incusd host, not here.
+	WINDIR="${WINDOWS%/*}"
+	;;
+*)
+	WINDIR=$(d=$(dirname -- "${WINDOWS}"); cd "${d}" && pwd)
+	;;
+esac
 VIRTIOFILE=$(basename "${VIRTIO}")
 VIRTIODIR=$(d=$(dirname -- "${VIRTIO}"); cd "${d}" && pwd)
 
@@ -39,7 +47,13 @@ fi
 name=build$(head -c6 /dev/urandom | od -tx1 -vAn | xargs printf %s)
 cleanup() {
 	incus image rm "${name}" || :
-	incus delete -f "${name}"
+	incus delete -f "${name}" || :
+	if [ X != X"${IMAGES_VOL:-}" ]; then
+		incus storage volume file delete "${IMAGES_VOL%%/*}" \
+			"${IMAGES_VOL##*/}/isos/${WINFILE}" || :
+		incus storage volume file delete "${IMAGES_VOL%%/*}" \
+			"${IMAGES_VOL##*/}/isos/unattended-${VERSION}.iso" || :
+	fi
 }
 trap cleanup EXIT INT QUIT TERM
 
@@ -69,13 +83,24 @@ fi
 rm -f "${DESTDIR}/unattended-${VERSION}.iso"
 xorriso -as mkisofs -o "${DESTDIR}/unattended-${VERSION}.iso" -R -J -V STUFF "${TMPDIR}/virtio-win-${VERSION}/"
 
+# If the Windows ISO came from a storage volume, the unattended ISO has to
+# follow it: incusd can only read what is on its own host.
+if [ X != X"${IMAGES_VOL:-}" ]; then
+	printf '[+] Pushing unattended ISO to %s\n' "${IMAGES_VOL}"
+	incus storage volume file push "${DESTDIR}/unattended-${VERSION}.iso" \
+		"${IMAGES_VOL%%/*}" "${IMAGES_VOL##*/}/isos/unattended-${VERSION}.iso" --create-dirs
+	ATTENDED=/var/lib/incus/images/isos/unattended-${VERSION}.iso
+else
+	ATTENDED="${DESTDIR}/unattended-${VERSION}.iso"
+fi
+
 # -------------------------------------------------------------------- #
 # launch VM in LXD
 
 apparmr() {
 	cat<<__EOF__
 ${WINDIR}/${WINFILE} rwk,
-${DESTDIR}/unattended-${VERSION}.iso rwk,
+${ATTENDED} rwk,
 __EOF__
 }
 
@@ -86,7 +111,7 @@ incus config device set "${name}" root io.bus=virtio-blk
 incus config device add "${name}" iso disk source="${WINDIR}/${WINFILE}" boot.priority=10
 incus config device add "${name}" incusagent disk source="agent:config"
 apparmr | incus config set "${name}" raw.apparmor=-
-printf -- '-drive file=%s,index=0,media=cdrom,if=ide -drive file=%s,index=1,media=cdrom,if=ide\n' "${WINDIR}/${WINFILE}" "${DESTDIR}/unattended-${VERSION}.iso" | incus config set "${name}" raw.qemu=-
+printf -- '-drive file=%s,index=0,media=cdrom,if=ide -drive file=%s,index=1,media=cdrom,if=ide\n' "${WINDIR}/${WINFILE}" "${ATTENDED}" | incus config set "${name}" raw.qemu=-
 
 if [ X2008 = X"${VERSION}" ]; then
 	incus config set "${name}" security.csm=true
