@@ -38,7 +38,7 @@ fi
 # -------------------------------------------------------------------- #
 
 tmpdir=$(mktemp -d)
-trap "/bin/rm -rf '${tmpdir}'" EXIT INT QUIT TERM
+trap "rm -rf '${tmpdir}'" EXIT INT QUIT TERM
 
 cd "${tmpdir}"
 
