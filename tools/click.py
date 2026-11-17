@@ -27,9 +27,21 @@ def rd(fd):
 
 def waitbooting(fd):
     buf = b''
+    start = time.monotonic()
     while True:
-        # UEFI or CSM
-        if b'PciRoot' in buf or b'Booting from DVD/CD' in buf:
+        # UEFI or CSM. 'PciRoot' also appears in OVMF boot-failure output,
+        # so treat it as advisory only.
+        if b'Booting from DVD/CD' in buf:
+            break
+        if b'PciRoot' in buf:
+            break
+        # Some firmware/incus combinations deliver no console output at
+        # all even though the installer boots fine on its own. Give up
+        # waiting rather than hanging the build forever; the Enter spam
+        # is only needed for the El Torito prompt, which the firmware
+        # answers by itself when it boots.
+        if time.monotonic() - start > 300:
+            print('[!] no boot marker after 300s; proceeding blindly')
             break
         buf += rd(fd)
 
