@@ -92,7 +92,7 @@ if [ X2008r2 = X"${VERSION}" ]; then
 	incus config set "${name}" security.csm=true
 fi
 
-if [ X11e = X"${VERSION}" ]; then
+if [ X11e = X"${VERSION}" ] || [ X11p = X"${VERSION}" ]; then
 	incus config device add "${name}" tpm tpm
 	incus config device set "${name}" root size=60GiB
 	# Win11 Setup gates install on Secure Boot enabled (and the 11e
