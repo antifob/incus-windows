@@ -21,3 +21,15 @@ if [ -z "${VIRTIO_VERSION:-}" ]; then
 	unset _iv
 	unset _min
 fi
+
+# The vsock-era packs ship a 2k16 viostor INF whose driver sections
+# declare NTamd64.10.0 only, so WinPE finds no disk on 6.3 guests and
+# the 2012r2 install fails with "could not apply DiskConfiguration".
+# The novsock pack's INF still covers 6.3; pack.sh strips viosock from
+# the unattend either way, so no agent is expected on this target.
+case "${1:-}" in
+2012r2|2012)
+	VIRTIO_VERSION="${VIRTIO_VERSION_NOVSOCK}"
+	VIRTIO_SHA256="${VIRTIO_SHA256_NOVSOCK}"
+	;;
+esac
