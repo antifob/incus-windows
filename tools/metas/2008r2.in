@@ -1,9 +1,9 @@
 architecture: x86_64
 creation_date: @date@
 properties:
-  description: Microsoft Windows 2012 R2 Standard
+  description: Microsoft Windows Server 2008 R2 SP1 Standard
   os: windows
-  release: 2012
+  release: 2008r2
   variant: default
   architecture: x86_64
   requirements.cdrom_agent: true

@@ -9,7 +9,7 @@ An Incus-oriented Windows VMs imaging toolset.
 - WinRM access (Ansible-ready).
 - SPICE guest tools (copy-paste and better video performance).
 - High-performance power configuration.
-- Incus agent installed (except 2008 and 2012).
+- Incus agent installed (except 2008r2 and 2012r2).
 - Most/all drivers installed.
 - Serial console access (disabled by default).
 
@@ -66,7 +66,7 @@ sh incus-windows/tools/import.sh ./output/win2022/
 incus init win2022 w22 -c security.secureboot=false
 incus config device add w22 iso-agent disk source=agent:config
 incus start w22
-incus init win2008 w2k8 -c security.secureboot=false -c security.csm=true
+incus init win2008r2 w2k8 -c security.secureboot=false -c security.csm=true
 incus config device add w2k8 iso-agent disk source=agent:config
 incus start w2k8
 

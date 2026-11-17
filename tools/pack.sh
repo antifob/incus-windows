@@ -88,7 +88,7 @@ incus config device add "${name}" incusagent disk source="agent:config"
 apparmr | incus config set "${name}" raw.apparmor=-
 printf -- '-drive file=%s,index=0,media=cdrom,if=ide -drive file=%s,index=1,media=cdrom,if=ide\n' "${WINDIR}/${WINFILE}" "${DESTDIR}/unattended-${VERSION}.iso" | incus config set "${name}" raw.qemu=-
 
-if [ X2008 = X"${VERSION}" ]; then
+if [ X2008r2 = X"${VERSION}" ]; then
 	incus config set "${name}" security.csm=true
 fi
 
