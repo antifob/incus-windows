@@ -16,16 +16,29 @@ An Incus-oriented Windows VMs imaging toolset.
 
 ## Supported versions
 
-The following Windows versions are supported.
+The following Windows versions are supported. Targets ending in `p`
+install Pro editions of the desktop versions; the server targets
+install Standard editions. The `urls.txt` entries for those targets
+point at genuine (non-evaluation) installers, mirrored from the
+official media and pinned by the SHA-256 digests in `isos.sha256`,
+which were verified against the digests published by files.rg-adguard
+on 2026-11-15.
 
-- Windows 11 Enterprise (24H2)
-- Windows 10 Enterprise (20H2, 21H2, 22H2)
-- Windows Server 2025
-- Windows Server 2022
-- Windows Server 2019
-- Windows Server 2016
-- Windows Server 2012
-- Windows Server 2008 R2 SP1
+- Windows 11 Pro (26H2, build 26300.9457)
+- Windows 10 Pro (22H2)
+- Windows Server 2025 Standard
+- Windows Server 2022 Standard
+- Windows Server 2019 Standard
+- Windows Server 2016 Standard
+- Windows Server 2012 R2 Standard
+- Windows Server 2008 R2 SP1 Standard
+
+The unattended installs for those targets embed Microsoft's published
+generic volume-license keys (GVLK) so that setup can complete without
+input; activating the resulting image is left to the deployer.
+
+The `11e`, `10e`, `10e-20h2` and `10e-21h2` targets are kept from
+upstream and build evaluation editions of the desktop versions.
 
 
 ## Requirements

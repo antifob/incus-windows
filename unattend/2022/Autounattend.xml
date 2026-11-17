@@ -97,7 +97,7 @@
       <UserData>
         <!-- https://docs.microsoft.com/en-us/windows-server/get-started/kms-client-activation-keys -->
         <ProductKey>
-          <!--<Key>WX4NM-KYWYW-QJJR4-XV3QB-6VM33</Key>-->
+          <Key>VDYBN-27WPP-V4HQT-9VMD4-VMK7H</Key>
           <WillShowUI>OnError</WillShowUI>
         </ProductKey>
         <AcceptEula>true</AcceptEula>
