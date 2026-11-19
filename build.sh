@@ -108,6 +108,10 @@ dliso() {
 
 	[ -f "${ISODIR}/${2}" ] || curl -fSLo "${ISODIR}/${2}" "${1}"
 
+	# Resume a download that a previous run left incomplete.
+	[ -f "${ISODIR}/${2}" ] && [ X"${3}" != X$(_sha256 "${ISODIR}/${2}") ] && \
+		curl -fSL -C - -o "${ISODIR}/${2}" "${1}"
+
 	if [ X"${3}" != X$(_sha256 "${ISODIR}/${2}") ]; then
 		die 'error: hash mismatch for %s\n' "${ISODIR}/${2}"
 	fi
