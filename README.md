@@ -148,6 +148,23 @@ disable the checks performed by the installer. These checks could be
 disabled manually after attaching to the VM's VGA console, or
 automatically by modifying the unattended configuration file.
 
+### Windows Server 2012 R2
+
+Server 2012 R2 is pinned to virtio-win `0.1.248-1` because the `2k16`
+storage drivers in `0.1.262-1` and `0.1.285-1` no longer support NT 6.3.
+
+As a reminder for future releases, check:
+
+- `viostor/2k16/amd64/viostor.inf`
+- `vioscsi/2k16/amd64/vioscsi.inf`
+- `NetKVM/2k16/amd64/netkvm.inf`
+
+Follow the `[Manufacturer]` entry to the models section for the device's
+PCI ID. `NTamd64.6.3` includes Server 2012 R2. e.g. the drivers in
+`0.1.285-1` list only `NTamd64.10.0`. If the drivers match, test a full
+`2012` build with `VIRTIO_VERSION` and `VIRTIO_SHA256` set to the new
+release and its checksum.
+
 ### Windows Server 2008 R2 SP1
 
 Windows Server 2008 R2 SP1 is EOL since 2020. However, it still used by

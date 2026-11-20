@@ -8,8 +8,14 @@ VIRTIO_SHA256_NOVSOCK="d5b5739cf297f0538d263e30678d5a09bba470a7c6bcbd8dff74e4415
 VIRTIO_VERSION_VSOCK="0.1.285-1"
 VIRTIO_SHA256_VSOCK="e14cf2b94492c3e925f0070ba7fdfedeb2048c91eea9c5a5afb30232a3976331"
 
+# Server 2012 R2 needs NT 6.3 drivers.
+if [ X"${VERSION:-}" = X2012 ] && [ X = X"${VIRTIO_VERSION:-}" ]; then
+	VIRTIO_VERSION=0.1.248-1
+	VIRTIO_SHA256=d5b5739cf297f0538d263e30678d5a09bba470a7c6bcbd8dff74e44153f16549
+fi
+
 # auto-select virtio pack based on local incus version (6.22+ needs vsock)
-if [ -z "${VIRTIO_VERSION:-}" ]; then
+if [ X = X"${VIRTIO_VERSION:-}" ]; then
 	VIRTIO_VERSION="${VIRTIO_VERSION_NOVSOCK}"
 	VIRTIO_SHA256="${VIRTIO_SHA256_NOVSOCK}"
 	_iv=$(incus version 2>/dev/null | awk '/^Client version:/ {print $3; exit}')
