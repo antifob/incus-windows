@@ -10,12 +10,8 @@
 # The shell provides every tool build.sh and tools/* call for, except
 # incus itself: incus is a client/daemon pair, and config.sh selects the
 # virtio driver pack from the client's version, so the client must match
-# the local daemon. Take incus from the host system (on this fleet,
-# profiles/incus-hypervisor.nix in the nixos-config flake provides it),
-# not from this shell.
+# the local daemon. Take incus from the host system, not from this shell.
 #
-# nixpkgs is pinned to the same revision as the nixos-config fleet flake,
-# so the shell's packages substitute from the fleet's binary cache.
 {
   inputs.nixpkgs.url =
     "github:NixOS/nixpkgs/d482ef84049d9b7276b83a06e4e4d76983830097";
