@@ -1,3 +1,8 @@
+if not "%~2"=="" (
+    powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0winre-legacy.ps1" "%~dp0..\%~2" >>"%WINDIR%\Temp\incus-winre.log" 2>&1
+    if errorlevel 1 exit /b 1
+)
+
 if exist C:\script.bat del C:\script.bat
 
 mkdir %WINDIR%\Setup\Scripts

@@ -39,7 +39,7 @@
                         <CreatePartition wcm:action="add">
                             <Order>1</Order>
                             <Type>Primary</Type>
-                            <Size>499</Size>
+                            <Size>1024</Size>
                         </CreatePartition>
                         <CreatePartition wcm:action="add">
                             <Order>2</Order>
@@ -197,7 +197,7 @@
         <SynchronousCommand wcm:action="add">
           <Order>2</Order>
           <Description>Run configuration script</Description>
-          <CommandLine>cmd.exe /c powershell -File G:\OEM\main.ps1</CommandLine>
+          <CommandLine>cmd.exe /c powershell -File G:\OEM\main.ps1 -WinREDriver viostor\w10\amd64\viostor.inf</CommandLine>
           <RequiresUserInput>true</RequiresUserInput>
         </SynchronousCommand>
       </FirstLogonCommands>

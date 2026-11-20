@@ -35,7 +35,7 @@
                         <CreatePartition wcm:action="add">
                             <Order>1</Order>
                             <Type>Primary</Type>
-                            <Size>499</Size>
+                            <Size>1024</Size>
                         </CreatePartition>
                         <CreatePartition wcm:action="add">
                             <Order>2</Order>
@@ -189,7 +189,8 @@
         <SynchronousCommand wcm:action="add">
           <Order>2</Order>
           <Description>Run configuration script</Description>
-          <CommandLine>cmd.exe /c powershell -File F:\OEM\main.ps1</CommandLine>
+          <!-- 6.3 DISM rejects the 2k16 catalog when servicing the recovery WIM. -->
+          <CommandLine>cmd.exe /c powershell -File F:\OEM\main.ps1 -LegacyWinREDriver viostor\2k8R2\amd64\viostor.inf</CommandLine>
           <RequiresUserInput>true</RequiresUserInput>
         </SynchronousCommand>
       </FirstLogonCommands>

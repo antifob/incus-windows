@@ -1,6 +1,25 @@
+param([string]$WinREDriver, [string]$LegacyWinREDriver)
+
 get-wmiobject win32_logicaldisk | % {
         if ($_.volumename -like 'STUFF*') {
 		$setupdrive = $_.deviceid
+	}
+}
+
+if ($WinREDriver) {
+	# Setup's storage driver is not carried into the recovery image.
+	$mount = "$env:TEMP\incus-winre"
+	New-Item -ItemType Directory -Path $mount -ErrorAction Stop | Out-Null
+	reagentc.exe /mountre /path $mount
+	if ($LASTEXITCODE) { throw "Cannot mount WinRE: $LASTEXITCODE" }
+	$action = '/discard'
+	try {
+		Add-WindowsDriver -Path $mount -Driver "${setupdrive}\$WinREDriver" -ErrorAction Stop | Out-Null
+		$action = '/commit'
+	} finally {
+		dism.exe /Unmount-Image "/MountDir:$mount" $action
+		if ($LASTEXITCODE) { throw "Cannot unmount WinRE ($action): $LASTEXITCODE" }
+		Remove-Item -LiteralPath $mount -ErrorAction Stop
 	}
 }
 
@@ -24,4 +43,4 @@ if (test-path "${setupdrive}\local\main.ps1") {
 	. "${setupdrive}\local\main.ps1"
 }
 
-cmd.exe /c "${setupdrive}\OEM\sysprep.bat" "${setupdrive}\OEM\unattend.xml"
+cmd.exe /c "${setupdrive}\OEM\sysprep.bat" "${setupdrive}\OEM\unattend.xml" $LegacyWinREDriver

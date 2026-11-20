@@ -178,7 +178,7 @@ like to build a relatively similar image:
 - on reboot (automatic), open `powershell` and run `E:\OEM\ConfigureRemotingForAnsible.ps1`;
 - run `E:\OEM\power.ps1`;
 - run `E:\OEM\qemu-ga.ps1`;
-- finally, run `E:\OEM\sysprep.bat E:\OEM\unattend.xml`.
+- finally, run `E:\OEM\sysprep.bat E:\OEM\unattend.xml viostor\2k8R2\amd64\viostor.inf` to add the disk driver to WinRE before sealing.
 
 ### Serial console access
 
