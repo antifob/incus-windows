@@ -190,7 +190,7 @@
           <Order>2</Order>
           <Description>Run configuration script</Description>
           <!-- 6.3 DISM rejects the 2k16 catalog when servicing the recovery WIM. -->
-          <CommandLine>cmd.exe /c powershell -File F:\OEM\main.ps1 -LegacyWinREDriver viostor\2k8R2\amd64\viostor.inf</CommandLine>
+          <CommandLine>cmd.exe /c powershell -Command "$d=(Get-WmiObject Win32_LogicalDisk|?{$_.VolumeName -eq 'STUFF'}|Select -First 1).DeviceID; if($d -and (Test-Path ($d+'\OEM\main.ps1'))){&amp; ($d+'\OEM\main.ps1') -LegacyWinREDriver viostor\2k8R2\amd64\viostor.inf}"</CommandLine>
           <RequiresUserInput>true</RequiresUserInput>
         </SynchronousCommand>
       </FirstLogonCommands>

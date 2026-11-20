@@ -211,7 +211,7 @@
         <SynchronousCommand wcm:action="add">
           <Order>2</Order>
           <Description>Run configuration script</Description>
-          <CommandLine>cmd.exe /c powershell -File G:\OEM\main.ps1 -WinREDriver viostor\w11\amd64\viostor.inf</CommandLine>
+          <CommandLine>cmd.exe /c powershell -Command "$d=(Get-WmiObject Win32_LogicalDisk|?{$_.VolumeName -eq 'STUFF'}|Select -First 1).DeviceID; if($d -and (Test-Path ($d+'\OEM\main.ps1'))){&amp; ($d+'\OEM\main.ps1') -WinREDriver viostor\w11\amd64\viostor.inf}"</CommandLine>
           <RequiresUserInput>true</RequiresUserInput>
         </SynchronousCommand>
       </FirstLogonCommands>
