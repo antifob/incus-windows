@@ -53,7 +53,8 @@ xorriso -report_about SORRY -osirrox on -indev "${VIRTIODIR}/${VIRTIOFILE}" -ext
 find "${TMPDIR}/virtio-win-${VERSION}/" -type d -exec chmod u+rwx {} \;
 
 cp -R "${OEM}" "${TMPDIR}/virtio-win-${VERSION}/OEM/"
-cp "${XMLPATH}" "${TMPDIR}/virtio-win-${VERSION}/"
+_xml="${TMPDIR}/virtio-win-${VERSION}/Autounattend.xml"
+cp "${XMLPATH}" "${_xml}"
 [ X = X"${LOCAL}" ] || cp -R "${LOCAL}" "${TMPDIR}/virtio-win-${VERSION}/local/"
 
 # strip viosock driver path from staged unattend if absent in the virtio iso
@@ -61,7 +62,6 @@ if [ ! -d "${TMPDIR}/virtio-win-${VERSION}/viosock" ]; then
 	printf '[+] viosock not present in virtio iso, stripping from unattend\n'
 	# read/transform/write-back instead of sed -i, whose -i semantics
 	# differ between GNU and BSD sed
-	_xml="${TMPDIR}/virtio-win-${VERSION}/$(basename "${XMLPATH}")"
 	sed '/<!-- VIOSOCK_BEGIN -->/,/<!-- VIOSOCK_END -->/d' "${_xml}" >"${_xml}.new"
 	mv "${_xml}.new" "${_xml}"
 fi
