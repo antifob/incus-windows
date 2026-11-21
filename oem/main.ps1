@@ -1,10 +1,6 @@
 param([string]$WinREDriver, [string]$LegacyWinREDriver)
 
-get-wmiobject win32_logicaldisk | % {
-        if ($_.volumename -like 'STUFF*') {
-		$setupdrive = $_.deviceid
-	}
-}
+$setupdrive = Split-Path -Qualifier $MyInvocation.MyCommand.Path
 
 if ($WinREDriver) {
 	# Setup's storage driver is not carried into the recovery image.

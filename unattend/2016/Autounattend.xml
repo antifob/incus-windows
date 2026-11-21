@@ -198,7 +198,7 @@
         <SynchronousCommand wcm:action="add">
           <Order>2</Order>
           <Description>Run configuration script</Description>
-          <CommandLine>cmd.exe /c powershell -File F:\OEM\main.ps1 -LegacyWinREDriver viostor\2k16\amd64\viostor.inf</CommandLine>
+          <CommandLine>powershell -NoProfile -Command "$d=@([IO.DriveInfo]::GetDrives()|?{$_.DriveType -eq 5 -and $_.IsReady -and $_.VolumeLabel -ceq 'STUFF'});if($d.Count -gt 1){exit 1};if($d){&amp; ($d[0].Name+'OEM\main.ps1') -LegacyWinREDriver viostor\2k16\amd64\viostor.inf}"</CommandLine>
           <RequiresUserInput>true</RequiresUserInput>
         </SynchronousCommand>
       </FirstLogonCommands>

@@ -221,7 +221,7 @@
         <SynchronousCommand wcm:action="add">
           <Order>2</Order>
           <Description>Run configuration script</Description>
-          <CommandLine>cmd.exe /c powershell -File G:\OEM\main.ps1 -WinREDriver viostor\2k25\amd64\viostor.inf</CommandLine>
+          <CommandLine>powershell -NoProfile -Command "$d=@([IO.DriveInfo]::GetDrives()|?{$_.DriveType -eq 5 -and $_.IsReady -and $_.VolumeLabel -ceq 'STUFF'});if($d.Count -gt 1){exit 1};if($d){&amp; ($d[0].Name+'OEM\main.ps1') -WinREDriver viostor\2k25\amd64\viostor.inf}"</CommandLine>
           <RequiresUserInput>true</RequiresUserInput>
         </SynchronousCommand>
       </FirstLogonCommands>
