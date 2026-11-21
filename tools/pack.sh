@@ -37,8 +37,12 @@ fi
 # -------------------------------------------------------------------- #
 
 name=build$(head -c6 /dev/urandom | od -tx1 -vAn | xargs printf %s)
+# Incus uses lowercase .iso to distinguish CDs from writable disks
+bootiso="${DESTDIR}/.setup.iso"
+ln -s "${WINDIR}/${WINFILE}" "${bootiso}"
 cleanup() {
 	incus image rm "${name}" || :
+	rm -f "${bootiso}"
 	incus delete -f "${name}"
 }
 trap cleanup EXIT INT QUIT TERM
@@ -83,7 +87,7 @@ printf '[+] Launching the VM\n'
 
 incus init "${name}" --empty --vm -c security.secureboot=false -c limits.cpu=4 -c limits.memory=8GB -c image.os=windows -d root,size=30GiB
 incus config device set "${name}" root io.bus=virtio-blk
-incus config device add "${name}" iso disk source="${WINDIR}/${WINFILE}" boot.priority=10
+incus config device add "${name}" iso disk source="${bootiso}" readonly=true boot.priority=10
 incus config device add "${name}" incusagent disk source="agent:config"
 apparmr | incus config set "${name}" raw.apparmor=-
 printf -- '-drive file=%s,index=0,media=cdrom,if=ide -drive file=%s,index=1,media=cdrom,if=ide\n' "${WINDIR}/${WINFILE}" "${DESTDIR}/unattended-${VERSION}.iso" | incus config set "${name}" raw.qemu=-
