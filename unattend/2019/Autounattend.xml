@@ -12,26 +12,6 @@
       <UserLocale>en-US</UserLocale>
     </component>
 
-    <component xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" language="neutral" name="Microsoft-Windows-PnpCustomizationsWinPE" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" versionScope="nonSxS">
-      <DriverPaths>
-        <PathAndCredentials wcm:action="add" wcm:keyValue="1">
-         <Path>E:\viostor\2k19\amd64</Path>
-        </PathAndCredentials>
-        <PathAndCredentials wcm:action="add" wcm:keyValue="2">
-         <Path>E:\NetKVM\2k19\amd64</Path>
-        </PathAndCredentials>
-        <PathAndCredentials wcm:action="add" wcm:keyValue="3">
-         <Path>E:\vioscsi\2k19\amd64</Path>
-        </PathAndCredentials>
-        <!-- VIOSOCK_BEGIN -->
-        <PathAndCredentials wcm:action="add" wcm:keyValue="4">
-         <Path>E:\viosock\2k19\amd64</Path>
-        </PathAndCredentials>
-        <!-- VIOSOCK_END -->
-      </DriverPaths>
-    </component>
-
-
     <component xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" language="neutral" name="Microsoft-Windows-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" versionScope="nonSxS">
       <DiskConfiguration>
         <Disk wcm:action="add">

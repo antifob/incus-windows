@@ -32,7 +32,7 @@ The following Windows versions are supported.
 
 - curl
 - incus
-- python
+- Python 3.8 or newer
 - xorriso
 
 ```
@@ -108,6 +108,32 @@ Note that the version tag must still match an existing targets.
 ```
 sh build.sh -i my.iso -x my.xml 10e
 ```
+
+With `-x`, WinPE drivers are selected in this order:
+
+1. If the answer file has a sibling `.drivers` file with the same basename,
+   stage only its listed directories under `$WinPEDriver$`. An empty file
+   stages none. The XML's own driver paths still apply; avoid listing
+   different versions of the same driver.
+2. Without a sibling `.drivers` file, if the XML declares `DriverPaths` in the
+   `windowsPE` pass for `Microsoft-Windows-PnpCustomizationsWinPE`, use
+   those paths without staging any additional packages.
+3. Otherwise, use `unattend/<target>/Autounattend.drivers`, just as for a
+   stock build. No separate list is needed when only the Windows ISO changes.
+
+A `.drivers` file is UTF-8, with one directory per line relative to the
+virtio ISO's root, e.g. `viostor/2k16/amd64`. Blank lines and lines starting
+with `#` are ignored. Setup discovers `$WinPEDriver$` without a drive letter.
+
+### Breaking change for custom answers
+
+`VIOSOCK_BEGIN` / `VIOSOCK_END` comments no longer tell the packer to
+delete XML. If the virtio ISO lacks `viosock/` and the answer contains a
+marked entry, packing stops with an error. With `viosock/` present, the XML
+is copied unchanged. To support both kinds of media, remove the marked
+`PathAndCredentials` entry and its comments from the XML and put its
+ISO-relative driver directory in the sibling `.drivers` file. A listed
+`viosock` driver is skipped when the ISO lacks it.
 
 ## Considerations
 
