@@ -27,9 +27,19 @@ def rd(fd):
 
 def waitbooting(fd):
     buf = b''
+    start = time.monotonic()
     while True:
         # UEFI or CSM
         if b'PciRoot' in buf or b'Booting from DVD/CD' in buf:
+            break
+        # Some incus/firmware combinations deliver no console output at
+        # all even though the installer boots by itself (observed with
+        # incus 7.5: the VM runs and installs, the serial console stays
+        # silent). Waiting forever turns that into a hung build, so give
+        # up and carry on. Skipping the Enter spam is harmless: the
+        # firmware answers the El Torito prompt itself when it boots.
+        if time.monotonic() - start > 300:
+            print('[!] no boot marker after 300s; proceeding without spam')
             break
         buf += rd(fd)
 
