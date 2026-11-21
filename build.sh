@@ -37,10 +37,6 @@ shift $(( OPTIND - 1 ))
 
 [ X-- != X"${1:-}" ] || shift
 
-echo "$isopath $xmlpath"
-echo "${@}"
-exit 0
-
 targets=$(cut -d' ' -f1 "${PROGBASE}/urls.txt" | paste -s -d ' ' -)
 if [ 1 -ne $# ] && [ 2 -ne $# ]; then
 	usage >&2
